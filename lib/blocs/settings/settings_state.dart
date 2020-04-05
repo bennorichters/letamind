@@ -1,13 +1,7 @@
 part of 'settings_bloc.dart';
 
-abstract class SettingsState extends Equatable {
-  const SettingsState();
-
-  Settings get settings;
-}
-
-class SettingsInitial extends SettingsState {
-  const SettingsInitial(this.settings);
+class SettingsState extends Equatable {
+  const SettingsState(this.settings);
   final Settings settings;
 
   @override

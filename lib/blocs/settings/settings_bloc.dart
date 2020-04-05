@@ -12,7 +12,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SettingsProvider settingsProvider;
 
   @override
-  SettingsState get initialState => SettingsInitial(null);
+  SettingsState get initialState => SettingsState(null);
 
   @override
   Stream<SettingsState> mapEventToState(

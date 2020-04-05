@@ -33,7 +33,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield SettingsState(_settings);
     } else if (event is SaveSettings) {
       await _settingsProvider.save(_settings);
-      yield SettingsState(_settings);
+      yield SavedSettings(_settings);
     }
   }
 }

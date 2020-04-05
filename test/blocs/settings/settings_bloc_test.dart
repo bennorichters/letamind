@@ -59,7 +59,8 @@ void main() {
         bloc.add(SaveSettings());
         return;
       },
-      expect: [SettingsState(testSettings)],
+      skip: 2,
+      expect: [SavedSettings(testSettings)],
       verify: (_) async => verify(provider.save(testSettings)).called(1),
     );
   });

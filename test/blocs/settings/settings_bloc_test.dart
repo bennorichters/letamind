@@ -15,11 +15,7 @@ void main() {
 
     setUp(() {
       provider = MockSettingsProvider();
-      when(provider.provide()).thenAnswer(
-        (_) => Future.value(
-          Settings(language: 'a', wordLength: 1),
-        ),
-      );
+      when(provider.provide()).thenAnswer((_) => Future.value(testSettings));
     });
 
     blocTest(
@@ -41,9 +37,7 @@ void main() {
       build: () async => SettingsBloc(provider),
       act: (bloc) => bloc.add(SaveSettings(testSettings)),
       expect: [SettingsState(testSettings)],
-      verify: (_) async {
-        verify(provider.save(testSettings)).called(1);
-      },
+      verify: (_) async => verify(provider.save(testSettings)).called(1),
     );
   });
 }

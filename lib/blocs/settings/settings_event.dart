@@ -12,17 +12,20 @@ class RetrieveSettings extends SettingsEvent {
 }
 
 class UpdateSettings extends SettingsEvent {
-  const UpdateSettings(this.settings);
-  final Settings settings;
+  const UpdateSettings({this.language, this.wordLength});
+  final Language language;
+  final int wordLength;
 
   @override
-  List<Object> get props => [settings];
+  List<Object> get props => [language, wordLength];
+
+  @override
+  bool get stringify => true;
 }
 
 class SaveSettings extends SettingsEvent {
-  const SaveSettings(this.settings);
-  final Settings settings;
+  const SaveSettings();
 
   @override
-  List<Object> get props => [settings];
+  List<Object> get props => [];
 }

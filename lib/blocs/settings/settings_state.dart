@@ -6,4 +6,7 @@ class SettingsState extends Equatable {
 
   @override
   List<Object> get props => [settings];
+
+  @override
+  bool get stringify => true;
 }

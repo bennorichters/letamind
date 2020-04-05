@@ -10,7 +10,7 @@ class MockSettingsProvider extends Mock implements SettingsProvider {}
 
 void main() {
   group('settings bloc', () {
-    final testSettings = Settings(language: Language.Hungarian, wordLength: 1);
+    final testSettings = Settings(language: Language.Dutch, wordLength: 1);
     SettingsProvider provider;
 
     setUp(() {
@@ -26,16 +26,39 @@ void main() {
     );
 
     blocTest(
+      'retrieve get default settings',
+      build: () async => SettingsBloc(provider),
+      act: (bloc) => bloc.add(RetrieveSettings()),
+      expect: [SettingsState(testSettings)],
+    );
+
+    blocTest(
       'update emit same settings',
       build: () async => SettingsBloc(provider),
-      act: (bloc) => bloc.add(UpdateSettings(testSettings)),
-      expect: [SettingsState(testSettings)],
+      act: (bloc) {
+        bloc.add(RetrieveSettings());
+        bloc.add(UpdateSettings(language: Language.Hungarian));
+        return;
+      },
+      skip: 2,
+      expect: [
+        SettingsState(
+          Settings(
+            language: Language.Hungarian,
+            wordLength: 1,
+          ),
+        ),
+      ],
     );
 
     blocTest(
       'save triggers provider save and emit same settings',
       build: () async => SettingsBloc(provider),
-      act: (bloc) => bloc.add(SaveSettings(testSettings)),
+      act: (bloc) {
+        bloc.add(RetrieveSettings());
+        bloc.add(SaveSettings());
+        return;
+      },
       expect: [SettingsState(testSettings)],
       verify: (_) async => verify(provider.save(testSettings)).called(1),
     );

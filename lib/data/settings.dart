@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _defaultSettings = Settings(
@@ -19,7 +20,7 @@ Language _fromCode(String code) {
   return _languageCode.keys.firstWhere((key) => _languageCode[key] == code);
 }
 
-class Settings {
+class Settings extends Equatable {
   const Settings({this.language, this.wordLength});
 
   Settings.fromJson(Map<String, dynamic> json)
@@ -29,10 +30,26 @@ class Settings {
   final Language language;
   final int wordLength;
 
+  Settings updateLanguage(Language updatedLanguage) => Settings(
+        language: updatedLanguage,
+        wordLength: wordLength,
+      );
+
+  Settings updateWordLength(int updatedWordLength) => Settings(
+        language: language,
+        wordLength: updatedWordLength,
+      );
+
   Map<String, dynamic> toJson() => {
         'language': _languageCode[language],
         'wordLength': wordLength,
       };
+
+  @override
+  List<Object> get props => [language, wordLength];
+
+  @override
+  bool get stringify => true;
 }
 
 class SettingsProvider {

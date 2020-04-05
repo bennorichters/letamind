@@ -15,9 +15,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsState get initialState => SettingsState(null);
 
   @override
-  Stream<SettingsState> mapEventToState(
-    SettingsEvent event,
-  ) async* {
-    
+  Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
+    if (event is UpdateSettings) {
+      yield SettingsState(event.settings);
+    } else if (event is SaveSettings) {
+      await settingsProvider.save(event.settings);
+      yield SettingsState(event.settings);
+    }
   }
 }

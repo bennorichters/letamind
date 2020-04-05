@@ -10,7 +10,7 @@ class MockSettingsProvider extends Mock implements SettingsProvider {}
 
 void main() {
   group('settings bloc', () {
-    final testSettings = Settings(language: 'a', wordLength: 1);
+    final testSettings = Settings(language: Language.Hungarian, wordLength: 1);
     SettingsProvider provider;
 
     setUp(() {

@@ -2,24 +2,35 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _defaultSettings = Settings(
-  language: 'nl',
+  language: Language.Dutch,
   wordLength: 5,
 );
 
 const _storageKey = 'letamind';
 
+enum Language { Dutch, English, Hungarian }
+const _languageCode = <Language, String>{
+  Language.Dutch: 'nl',
+  Language.English: 'en',
+  Language.Hungarian: 'hu',
+};
+
+Language _fromCode(String code) {
+  return _languageCode.keys.firstWhere((key) => _languageCode[key] == code);
+}
+
 class Settings {
   const Settings({this.language, this.wordLength});
 
   Settings.fromJson(Map<String, dynamic> json)
-      : language = json['language'],
+      : language = _fromCode(json['language']),
         wordLength = json['wordLength'];
 
-  final String language;
+  final Language language;
   final int wordLength;
 
   Map<String, dynamic> toJson() => {
-        'language': language,
+        'language': _languageCode[language],
         'wordLength': wordLength,
       };
 }

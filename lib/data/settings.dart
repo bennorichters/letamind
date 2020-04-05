@@ -10,15 +10,24 @@ const _defaultSettings = Settings(
 const _storageKey = 'letamind';
 
 enum Language { Dutch, English, Hungarian }
-const _languageCode = <Language, String>{
-  Language.Dutch: 'nl',
-  Language.English: 'en',
-  Language.Hungarian: 'hu',
-};
 
-Language _fromCode(String code) {
-  return _languageCode.keys.firstWhere((key) => _languageCode[key] == code);
+extension LanguageCodeExtension on Language {
+  String get code {
+    switch (this) {
+      case Language.Dutch:
+        return 'nl';
+      case Language.English:
+        return 'en';
+      case Language.Hungarian:
+        return 'hu';
+      default:
+        throw Error();
+    }
+  }
 }
+
+Language _fromCode(String code) =>
+    Language.values.firstWhere((value) => value.code == code);
 
 class Settings extends Equatable {
   const Settings({this.language, this.wordLength});
@@ -41,7 +50,7 @@ class Settings extends Equatable {
       );
 
   Map<String, dynamic> toJson() => {
-        'language': _languageCode[language],
+        'language': language.code,
         'wordLength': wordLength,
       };
 

@@ -11,6 +11,6 @@ class SettingsState extends Equatable {
   bool get stringify => true;
 }
 
-class SavedSettings extends SettingsState {
-  const SavedSettings(Settings settings) : super(settings);  
+class SettingsSaved extends SettingsState {
+  const SettingsSaved(Settings settings) : super(settings);  
 }

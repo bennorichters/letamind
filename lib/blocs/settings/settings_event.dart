@@ -4,15 +4,15 @@ abstract class SettingsEvent extends Equatable {
   const SettingsEvent();
 }
 
-class RetrieveSettings extends SettingsEvent {
-  const RetrieveSettings();
+class SettingsInit extends SettingsEvent {
+  const SettingsInit();
 
   @override
   List<Object> get props => [];
 }
 
-class UpdateSettings extends SettingsEvent {
-  const UpdateSettings({this.language, this.wordLength});
+class SettingsUpdated extends SettingsEvent {
+  const SettingsUpdated({this.language, this.wordLength});
   final Language language;
   final int wordLength;
 
@@ -23,8 +23,8 @@ class UpdateSettings extends SettingsEvent {
   bool get stringify => true;
 }
 
-class SaveSettings extends SettingsEvent {
-  const SaveSettings();
+class SettingsSave extends SettingsEvent {
+  const SettingsSave();
 
   @override
   List<Object> get props => [];

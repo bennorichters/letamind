@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/settings/settings_bloc.dart';
-import 'package:letamind/keys.dart';
+import 'package:letamind/data/settings.dart';
+import 'package:letamind/screens/widgets/tappable_flag.dart';
+import 'package:letamind/screens/widgets/word_length_selector.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key, this.title}) : super(key: key);
@@ -14,101 +16,100 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
-        builder: (BuildContext context, SettingsState state) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Settings'),
-        ),
-        body: Center(
-          child: Table(
-            children: [
-              TableRow(
-                children: [
-                  Column(
-                    children: [
-                      Text('Taal'),
-                      Text('Language'),
-                      Text('Nyelv'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      _TappableFlag('nl', true),
-                      _TappableFlag('en', false),
-                      _TappableFlag('hu', false),
-                    ],
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  Text('Woordlengte'),
-                  _WordLengthSelector(5),
-                ],
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          tooltip: 'Start',
-          child: Icon(Icons.play_arrow),
-        ),
-      );
-    });
+  void initState() {
+    super.initState();
+    BlocProvider.of<SettingsBloc>(context).add(const SettingsInit());
   }
-}
-
-class _TappableFlag extends StatelessWidget {
-  const _TappableFlag(this.languageCode, this.enabled);
-  final String languageCode;
-  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
-      child: GestureDetector(
-        key: Key(settings_language_prefix + languageCode),
-        onTap: () {},
-        child: Opacity(
-          opacity: enabled ? 1.0 : 0.3,
-          child: Image.asset(
-            'assets/lang/' + languageCode + '/flag40.png',
-            width: 40.0,
-            height: 40.0,
+    return BlocListener<SettingsBloc, SettingsState>(
+      listener: (BuildContext context, SettingsState state) {
+        if (state is SettingsSaved) {
+          Navigator.pushReplacementNamed(context, 'game');
+        }
+      },
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+          builder: (BuildContext context, SettingsState state) {
+        if (state.settings == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Settings'),
           ),
-        ),
-      ),
+          body: Center(
+            child: Table(
+              children: [
+                TableRow(
+                  children: [
+                    Column(
+                      children: [
+                        Text('Taal'),
+                        Text('Language'),
+                        Text('Nyelv'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        _createTableFlag(
+                          context,
+                          state.settings.language,
+                          Language.Dutch,
+                        ),
+                        _createTableFlag(
+                          context,
+                          state.settings.language,
+                          Language.English,
+                        ),
+                        _createTableFlag(
+                          context,
+                          state.settings.language,
+                          Language.Hungarian,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text('Woordlengte'),
+                    WordLengthSelector(
+                      value: 5,
+                      onChangeEnd: (double value) {
+                        BlocProvider.of<SettingsBloc>(context).add(
+                          SettingsUpdated(wordLength: value.floor()),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            tooltip: 'Start',
+            child: Icon(Icons.play_arrow),
+          ),
+        );
+      }),
     );
   }
 }
 
-class _WordLengthSelector extends StatefulWidget {
-  const _WordLengthSelector(this.value);
-  final int value;
-
-  @override
-  State<StatefulWidget> createState() => _WordLengthSelectorState(value);
-}
-
-class _WordLengthSelectorState extends State<_WordLengthSelector> {
-  _WordLengthSelectorState(this.selectedValue);
-  int selectedValue;
-
-  @override
-  Widget build(BuildContext context) {
-    return Slider(
-      label: selectedValue.toString(),
-      value: selectedValue.toDouble(),
-      min: 4,
-      max: 8,
-      divisions: 4,
-      onChanged: (double newValue) =>
-          setState(() => selectedValue = newValue.floor()),
-      onChangeEnd: (_) {},
-    );
-  }
+Widget _createTableFlag(
+  BuildContext context,
+  Language stateLanguage,
+  Language flagLanguage,
+) {
+  return TappableFlag(
+    languageCode: flagLanguage.code,
+    enabled: stateLanguage == flagLanguage,
+    onTap: () {
+      BlocProvider.of<SettingsBloc>(context)
+          .add(SettingsUpdated(language: flagLanguage));
+    },
+  );
 }

@@ -28,7 +28,7 @@ void main() {
     blocTest(
       'retrieve get default settings',
       build: () async => SettingsBloc(provider),
-      act: (bloc) => bloc.add(RetrieveSettings()),
+      act: (bloc) => bloc.add(SettingsInit()),
       expect: [SettingsState(testSettings)],
     );
 
@@ -36,8 +36,8 @@ void main() {
       'update emit same settings',
       build: () async => SettingsBloc(provider),
       act: (bloc) {
-        bloc.add(RetrieveSettings());
-        bloc.add(UpdateSettings(language: Language.Hungarian));
+        bloc.add(SettingsInit());
+        bloc.add(SettingsUpdated(language: Language.Hungarian));
         return;
       },
       skip: 2,
@@ -55,12 +55,12 @@ void main() {
       'save triggers provider save and emit same settings',
       build: () async => SettingsBloc(provider),
       act: (bloc) {
-        bloc.add(RetrieveSettings());
-        bloc.add(SaveSettings());
+        bloc.add(SettingsInit());
+        bloc.add(SettingsSave());
         return;
       },
       skip: 2,
-      expect: [SavedSettings(testSettings)],
+      expect: [SettingsSaved(testSettings)],
       verify: (_) async => verify(provider.save(testSettings)).called(1),
     );
   });

@@ -3,7 +3,7 @@ import 'package:letamind/data/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  group('data', () {
+  group('settings', () {
     final testSettings = Settings(language: Language.Hungarian, wordLength: 1);
 
     group('model', () {

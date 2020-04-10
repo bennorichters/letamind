@@ -42,9 +42,21 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         finished: _finished,
       );
     } else if (event is SubmitGuess) {
-       yield PlayState(
-        wordLength: 5,
-        moves: [Move(guess: '11111', score: 2)],
+      String guess = event.guess;
+      int score = 0;
+
+      for (int i = 0; i < _word.length; i++) {
+        String char = _word[i];
+        if (guess[i] == char) {
+          score += 2;
+        } else if (guess.contains(char)) {
+          score++;
+        }
+      }
+
+      yield PlayState(
+        wordLength: _word.length,
+        moves: _moves..add(Move(guess: guess, score: score)),
         finished: false,
       );
     }

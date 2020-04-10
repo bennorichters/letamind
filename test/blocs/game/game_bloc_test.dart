@@ -69,7 +69,7 @@ void main() {
           bloc.add(SubmitGuess(guess));
           return;
         },
-        skip: 2,
+        skip: 1,
         expect: [
           PlayState(
             wordLength: 5,
@@ -84,5 +84,20 @@ void main() {
     scoreTest('22222', 2);
     scoreTest('00000', 0);
     scoreTest('01000', 1);
+    scoreTest('31333', 3);
+    scoreTest('32333', 4);
+    scoreTest('12345', 10);
+    scoreTest('12341', 8);
+    scoreTest('12340', 8);
+    scoreTest('01234', 4);
+    scoreTest('01235', 5);
+    scoreTest('01243', 5);
+    scoreTest('52345', 8);
+    scoreTest('13345', 8);
+    scoreTest('21245', 6);
+    scoreTest('13245', 8);
+    scoreTest('33932', 2);
+    scoreTest('92399', 4);
+    scoreTest('92939', 3);
   });
 }

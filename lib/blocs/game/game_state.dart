@@ -23,4 +23,7 @@ class PlayState extends GameState {
 
   @override
   List<Object> get props => [wordLength, moves, finished];
+
+  @override
+  bool get stringify => true;
 }

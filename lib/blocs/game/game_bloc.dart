@@ -41,15 +41,24 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         moves: _moves,
         finished: _finished,
       );
+    } else if (event is SubmitGuess) {
+       yield PlayState(
+        wordLength: 5,
+        moves: [Move(guess: '11111', score: 2)],
+        finished: false,
+      );
     }
   }
 }
 
 class Move extends Equatable {
-  const Move({this.guess, this.score});
+  const Move({@required this.guess, @required this.score});
   final String guess;
   final int score;
 
   @override
   List<Object> get props => [guess, score];
+
+  @override
+  bool get stringify => true;
 }

@@ -11,8 +11,8 @@ class StartNewGame extends GameEvent {
   List<Object> get props => null;
 }
 
-class SubmitMove extends GameEvent {
-  const SubmitMove(this.guess);
+class SubmitGuess extends GameEvent {
+  const SubmitGuess(this.guess);
   final String guess;
 
   @override

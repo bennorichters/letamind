@@ -2,14 +2,14 @@ import 'package:letamind/data/settings.dart';
 
 extension TranslationExtenion on String {
   static Language language = Language.English;
-  String get tr => _texts[language.code][this];
+
+  String get tr => _texts[language.code].keys.contains(this)
+      ? _texts[language.code][this]
+      : (this[0].toUpperCase() + this.substring(1)).replaceAll('_', ' ');
 }
 
 const _texts = {
-  'en': {
-    'settings': 'Settings',
-    'word_length': 'Word length',
-  },
+  'en': {},
   'nl': {
     'settings': 'Instellingen',
     'word_length': 'Woordlengte',

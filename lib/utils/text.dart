@@ -7,12 +7,15 @@ extension TranslationExtenion on String {
 
 const _texts = {
   'en': {
+    'settings': 'Settings',
     'word_length': 'Word length',
   },
   'nl': {
+    'settings': 'Instellingen',
     'word_length': 'Woordlengte',
   },
   'hu': {
+    'settings': 'Beállítások',
     'word_length': 'Szóhossz',
   },
 };

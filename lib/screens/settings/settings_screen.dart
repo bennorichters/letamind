@@ -38,7 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text('Settings'),
+            title: Text('settings'.tr),
           ),
           body: Center(
             child: Table(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/settings/settings_bloc.dart';
 import 'package:letamind/data/settings.dart';
-import 'package:letamind/screens/widgets/tappable_flag.dart';
-import 'package:letamind/screens/widgets/word_length_selector.dart';
+import 'package:letamind/screens/settings/widgets/tappable_flag.dart';
+import 'package:letamind/screens/settings/widgets/word_length_selector.dart';
 import 'package:letamind/utils/text.dart';
 
 class SettingsScreen extends StatefulWidget {

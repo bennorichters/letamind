@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:letamind/data/settings.dart';
+import 'package:letamind/utils/text.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
@@ -20,10 +21,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Stream<SettingsState> mapEventToState(SettingsEvent event) async* {
     if (event is SettingsInit) {
       _settings = await _settingsProvider.provide();
+      TranslationExtenion.language = _settings.language;
       yield SettingsState(_settings);
     } else if (event is SettingsUpdated) {
       if (event.language != null) {
         _settings = _settings.updateLanguage(event.language);
+        TranslationExtenion.language = event.language;
       }
 
       if (event.wordLength != null) {

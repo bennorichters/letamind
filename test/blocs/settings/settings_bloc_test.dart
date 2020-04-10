@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:letamind/data/settings.dart';
+import 'package:letamind/utils/text.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:letamind/blocs/settings/settings_bloc.dart';
@@ -10,8 +11,9 @@ class MockSettingsProvider extends Mock implements SettingsProvider {}
 
 void main() {
   group('settings bloc', () {
-    final testSettings = Settings(language: Language.Dutch, wordLength: 1);
     SettingsProvider provider;
+
+    final testSettings = Settings(language: Language.Dutch, wordLength: 1);
 
     setUp(() {
       provider = MockSettingsProvider();
@@ -26,10 +28,12 @@ void main() {
     );
 
     blocTest(
-      'retrieve get default settings',
+      'init gets test settings',
       build: () async => SettingsBloc(provider),
       act: (bloc) => bloc.add(SettingsInit()),
       expect: [SettingsState(testSettings)],
+      verify: (_) async =>
+          expect(TranslationExtenion.language, testSettings.language),
     );
 
     blocTest(
@@ -49,6 +53,8 @@ void main() {
           ),
         ),
       ],
+      verify: (_) async =>
+          expect(TranslationExtenion.language, Language.Hungarian),
     );
 
     blocTest(

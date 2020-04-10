@@ -75,9 +75,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 TableRow(
                   children: [
-                    Text('word_length'.tr),
+                    Text('word_length'.tr + ' (${state.settings.wordLength})'),
                     WordLengthSelector(
-                      value: 5,
+                      value: state.settings.wordLength,
                       onChangeEnd: (double value) {
                         BlocProvider.of<SettingsBloc>(context).add(
                           SettingsUpdated(wordLength: value.floor()),

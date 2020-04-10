@@ -4,6 +4,7 @@ import 'package:letamind/blocs/settings/settings_bloc.dart';
 import 'package:letamind/data/settings.dart';
 import 'package:letamind/screens/widgets/tappable_flag.dart';
 import 'package:letamind/screens/widgets/word_length_selector.dart';
+import 'package:letamind/utils/text.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key key, this.title}) : super(key: key);
@@ -74,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 TableRow(
                   children: [
-                    Text('Woordlengte'),
+                    Text('word_length'.tr),
                     WordLengthSelector(
                       value: 5,
                       onChangeEnd: (double value) {

@@ -1,12 +1,21 @@
-abstract class WordProvider {
-  String random(int length);
+import 'package:letamind/data/settings.dart';
+
+class Dictionary {
+  const Dictionary({this.language, this.words});
+  final Language language;
+  final List<String> words;
 }
 
-class DictionaryWordProvider implements WordProvider {
-  DictionaryWordProvider(this.words);
-  final List<String> words;
+abstract class DictionaryProvider {
+  Future<Dictionary> provide(Language language);
+}
 
-  @override
+class WordProvider {
+  Dictionary dictionary;
+
+  Language get language => dictionary.language;
+
   String random(int length) =>
-      (words.where((e) => e.length == length).toList()..shuffle()).first;
+      (dictionary.words.where((e) => e.length == length).toList()..shuffle())
+          .first;
 }

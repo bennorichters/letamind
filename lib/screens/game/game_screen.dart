@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
+import 'package:letamind/screens/game/widgets/solution_row.dart';
 
 class GameScreen extends StatefulWidget {
   GameScreen({Key key, this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -23,20 +23,33 @@ class _GameScreenState extends State<GameScreen> {
     return BlocListener<GameBloc, GameState>(
       listener: (BuildContext context, GameState state) {
         // if (state is SettingsSaved) {
-        //   Navigator.pushReplacementNamed(context, 'game');
+        //   Navigator.pushReplacementNamed(context, 'settings');
         // }
       },
-      child: BlocBuilder<GameBloc, GameState>(
-          builder: (BuildContext context, GameState state) {
-        // if (state.settings == null) {
-        //   return const Center(child: CircularProgressIndicator());
-        // }
-
-        return Scaffold(
+      child: BlocBuilder<GameBloc, GameState>(builder: (
+        BuildContext context,
+        GameState state,
+      ) {
+        if (state is PlayState) {
+          return Scaffold(
             appBar: AppBar(
-              title: Text('Guess the word'),
+              title: const Text('Letamind'),
             ),
-            body: Center());
+            body: Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SolutionRow(length: state.wordLength),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        return const Center(child: CircularProgressIndicator());
       }),
     );
   }

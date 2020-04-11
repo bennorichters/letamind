@@ -78,11 +78,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Text('word_length'.tr + ' (${state.settings.wordLength})'),
                     WordLengthSelector(
                       value: state.settings.wordLength,
-                      onChangeEnd: (double value) {
-                        BlocProvider.of<SettingsBloc>(context).add(
-                          SettingsUpdated(wordLength: value.floor()),
-                        );
-                      },
+                      onChangeEnd: (double value) =>
+                          BlocProvider.of<SettingsBloc>(context).add(
+                        SettingsUpdated(wordLength: value.floor()),
+                      ),
                     ),
                   ],
                 ),
@@ -90,7 +89,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () =>
+                BlocProvider.of<SettingsBloc>(context).add(SettingsSave()),
             tooltip: 'Start',
             child: Icon(Icons.play_arrow),
           ),
@@ -108,9 +108,7 @@ Widget _createTableFlag(
   return TappableFlag(
     languageCode: flagLanguage.code,
     enabled: stateLanguage == flagLanguage,
-    onTap: () {
-      BlocProvider.of<SettingsBloc>(context)
-          .add(SettingsUpdated(language: flagLanguage));
-    },
+    onTap: () => BlocProvider.of<SettingsBloc>(context)
+        .add(SettingsUpdated(language: flagLanguage)),
   );
 }

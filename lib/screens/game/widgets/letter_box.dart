@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:letamind/screens/game/utils/size_calculator.dart';
+import 'package:letamind/screens/game/utils/size_data.dart';
 
 class LetterBox extends StatefulWidget {
   const LetterBox({
@@ -10,7 +10,7 @@ class LetterBox extends StatefulWidget {
   });
   final String letter;
   final Color borderColor;
-  final SizeCalculator sizeData;
+  final SizeData sizeData;
 
   @override
   State<StatefulWidget> createState() => _LetterBoxState();

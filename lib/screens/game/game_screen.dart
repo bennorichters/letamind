@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
-import 'package:letamind/screens/game/utils/size_calculator.dart';
+import 'package:letamind/screens/game/utils/size_data.dart';
 import 'package:letamind/screens/game/widgets/word_row.dart';
 
 class GameScreen extends StatefulWidget {
@@ -35,7 +35,7 @@ class _GameScreenState extends State<GameScreen> {
           final width = MediaQuery.of(context).size.width;
           print('GameScreen - width: $width');
           final length = 4;
-          final sizeData = SizeCalculator.create(length: length, width: width);
+          final sizeData = SizeData.create(length: length, width: width);
 
           return Scaffold(
             appBar: AppBar(

@@ -32,7 +32,7 @@ class _LetterBoxState extends State<LetterBox> {
     _controller.text = widget.letter;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
       child: Container(
         height: 50.0,
         width: 50.0,
@@ -45,7 +45,7 @@ class _LetterBoxState extends State<LetterBox> {
           child: Center(
             child: TextField(
               controller: _controller,
-              decoration: InputDecoration(border: InputBorder.none),
+              decoration: const InputDecoration(border: InputBorder.none),
               enableInteractiveSelection: false,
               focusNode: _focusNode,
               inputFormatters: [LengthLimitingTextInputFormatter(1)],

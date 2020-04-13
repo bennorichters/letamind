@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:letamind/screens/game/utils/size_calculator.dart';
 
 class LetterBox extends StatefulWidget {
   const LetterBox({
@@ -9,7 +10,7 @@ class LetterBox extends StatefulWidget {
   });
   final String letter;
   final Color borderColor;
-  final Map<String, double> sizeData;
+  final SizeCalculator sizeData;
 
   @override
   State<StatefulWidget> createState() => _LetterBoxState();
@@ -37,26 +38,26 @@ class _LetterBoxState extends State<LetterBox> {
     _controller.text = widget.letter;
 
     return Padding(
-      padding: EdgeInsets.all(widget.sizeData['padding']),
+      padding: EdgeInsets.all(widget.sizeData.padding),
       child: Container(
-        height: widget.sizeData['size'],
-        width: widget.sizeData['size'],
+        height: widget.sizeData.size,
+        width: widget.sizeData.size,
         color: Colors.transparent,
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(width: widget.sizeData['border'], color: widget.borderColor),
+            border: Border.all(width: widget.sizeData.border, color: widget.borderColor),
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           ),
           child: TextField(
             controller: _controller,
             decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.only(bottom: widget.sizeData['cPadding']),
+              contentPadding: EdgeInsets.only(bottom: widget.sizeData.cPadding),
             ),
             enableInteractiveSelection: false,
             focusNode: _focusNode,
             inputFormatters: [LengthLimitingTextInputFormatter(1)],
-            style: TextStyle(fontSize: widget.sizeData['font'], fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: widget.sizeData.font, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
             onChanged: (value) {
               _controller.value = TextEditingValue(

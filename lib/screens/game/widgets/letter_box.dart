@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LetterBox extends StatefulWidget {
-  const LetterBox({@required this.letter, @required this.borderColor});
+  const LetterBox({
+    @required this.letter,
+    @required this.borderColor,
+    @required this.sizeData,
+  });
   final String letter;
   final Color borderColor;
+  final Map<String, double> sizeData;
 
   @override
   State<StatefulWidget> createState() => _LetterBoxState();
@@ -32,30 +37,33 @@ class _LetterBoxState extends State<LetterBox> {
     _controller.text = widget.letter;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+      padding: EdgeInsets.all(widget.sizeData['padding']),
       child: Container(
-        height: 50.0,
-        width: 50.0,
+        height: widget.sizeData['size'],
+        width: widget.sizeData['size'],
         color: Colors.transparent,
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(width: 5, color: widget.borderColor),
+            border: Border.all(width: widget.sizeData['border'], color: widget.borderColor),
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           ),
-          child: Center(
-            child: TextField(
-              controller: _controller,
-              decoration: const InputDecoration(border: InputBorder.none),
-              enableInteractiveSelection: false,
-              focusNode: _focusNode,
-              inputFormatters: [LengthLimitingTextInputFormatter(1)],
-              onChanged: (value) {
-                _controller.value = TextEditingValue(
-                  text: value.toUpperCase(),
-                  selection: _controller.selection,
-                );
-              },
+          child: TextField(
+            controller: _controller,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(bottom: widget.sizeData['cPadding']),
             ),
+            enableInteractiveSelection: false,
+            focusNode: _focusNode,
+            inputFormatters: [LengthLimitingTextInputFormatter(1)],
+            style: TextStyle(fontSize: widget.sizeData['font'], fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            onChanged: (value) {
+              _controller.value = TextEditingValue(
+                text: value.toUpperCase(),
+                selection: _controller.selection,
+              );
+            },
           ),
         ),
       ),

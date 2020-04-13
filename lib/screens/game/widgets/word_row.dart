@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:letamind/screens/game/widgets/letter_box.dart';
 
 class WordRow extends StatelessWidget {
-  const WordRow({@required this.length});
+  const WordRow({@required this.length, @required this.sizeData});
   final int length;
+  final Map<String, double> sizeData;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,7 @@ class WordRow extends StatelessWidget {
         LetterBox(
           letter: '?',
           borderColor: Colors.green,
+          sizeData: sizeData,
         ),
       ),
     );

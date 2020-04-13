@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
-import 'package:letamind/screens/game/widgets/solution_row.dart';
+import 'package:letamind/screens/game/widgets/word_row.dart';
 
 class GameScreen extends StatefulWidget {
   GameScreen({Key key, this.title}) : super(key: key);
@@ -38,10 +38,24 @@ class _GameScreenState extends State<GameScreen> {
             body: Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Table(
+                  columnWidths: {0: FractionColumnWidth(.8)},
                   children: [
-                    SolutionRow(length: state.wordLength),
+                    TableRow(
+                      children: [
+                        TableCell(child: WordRow(length: state.wordLength)),
+                        TableCell(child: Container()),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        TableCell(child: WordRow(length: state.wordLength)),
+                        TableCell(child: RaisedButton(
+                          onPressed: (){},
+                          child: Text('submit'),
+                        ),),
+                      ],
+                    ),
                   ],
                 ),
               ),

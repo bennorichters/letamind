@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letamind/screens/game/widgets/letter_box.dart';
 
-class SolutionRow extends StatelessWidget {
-  const SolutionRow({@required this.length});
+class WordRow extends StatelessWidget {
+  const WordRow({@required this.length});
   final int length;
 
   @override

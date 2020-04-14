@@ -13,16 +13,18 @@ class InitialGameState extends GameState {
 
 class PlayState extends GameState {
   const PlayState({
-    @required this.wordLength,
+    @required this.enteredLetters,
     @required this.moves,
     @required this.finished,
   });
-  final int wordLength;
+  final List<String> enteredLetters;
   final List<Move> moves;
   final bool finished;
 
+  int get wordLength => enteredLetters.length;
+
   @override
-  List<Object> get props => [wordLength, moves, finished];
+  List<Object> get props => [enteredLetters, moves, finished];
 
   @override
   bool get stringify => true;

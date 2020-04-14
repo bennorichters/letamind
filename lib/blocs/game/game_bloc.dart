@@ -20,6 +20,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   final WordProvider wordProvider;
 
   String _word;
+  List<String> _enteredLetters;
   List<Move> _moves = [];
   bool _finished = false;
 
@@ -33,11 +34,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       final dict = await dictionaryProvider.provide(settings.language);
       wordProvider.dictionary = dict;
       _word = wordProvider.random(settings.wordLength);
+      _enteredLetters = List.generate(settings.wordLength, (_) => null);
       _moves = [];
       _finished = false;
 
       yield PlayState(
-        wordLength: settings.wordLength,
+        enteredLetters: _enteredLetters,
+        moves: _moves,
+        finished: _finished,
+      );
+    } else if (event is EnteredLetter) {
+      _enteredLetters[event.position] = event.letter.toUpperCase();
+      yield PlayState(
+        enteredLetters: _enteredLetters,
         moves: _moves,
         finished: _finished,
       );
@@ -55,7 +64,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       }
 
       yield PlayState(
-        wordLength: _word.length,
+        enteredLetters: _enteredLetters,
         moves: _moves..add(Move(guess: guess, score: score)),
         finished: false,
       );

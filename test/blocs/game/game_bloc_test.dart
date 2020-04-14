@@ -52,7 +52,58 @@ void main() {
         wordProvider: wordProvider,
       ),
       act: (bloc) => bloc.add(StartNewGame()),
-      expect: [PlayState(wordLength: 5, moves: [], finished: false)],
+      expect: [
+        PlayState(
+          enteredLetters: [null, null, null, null, null],
+          moves: [],
+          finished: false,
+        )
+      ],
+    );
+
+    blocTest(
+      'enter letter',
+      build: () async => GameBloc(
+        settingsProvider: settingsProvider,
+        dictionaryProvider: dictionaryProvider,
+        wordProvider: wordProvider,
+      ),
+      act: (bloc) {
+        bloc.add(StartNewGame());
+        bloc.add(EnteredLetter(position: 2, letter: 'a'));
+        return;
+      },
+      skip: 1,
+      expect: [
+        PlayState(
+          enteredLetters: [null, null, 'A', null, null],
+          moves: [],
+          finished: false,
+        )
+      ],
+    );
+
+    blocTest(
+      'enter two letters',
+      build: () async => GameBloc(
+        settingsProvider: settingsProvider,
+        dictionaryProvider: dictionaryProvider,
+        wordProvider: wordProvider,
+      ),
+      act: (bloc) {
+        bloc.add(StartNewGame());
+        bloc.add(EnteredLetter(position: 2, letter: 'a'));
+        bloc.add(EnteredLetter(position: 3, letter: 'b'));
+        return;
+      },
+      skip: 1,
+      expect: [
+        PlayState(
+          enteredLetters: [null, null, 'A', 'B', null],
+          moves: [],
+          finished: false,
+        )
+      ],
     );
 
     @isTest
@@ -72,7 +123,7 @@ void main() {
         skip: 1,
         expect: [
           PlayState(
-            wordLength: 5,
+            enteredLetters: [null, null, null, null, null],
             moves: [Move(guess: guess, score: expectedScore)],
             finished: false,
           )

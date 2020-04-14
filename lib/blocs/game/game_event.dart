@@ -11,6 +11,15 @@ class StartNewGame extends GameEvent {
   List<Object> get props => null;
 }
 
+class EnteredLetter extends GameEvent {
+  const EnteredLetter({@required this.position, @required this.letter});
+  final int position;
+  final String letter;
+
+  @override
+  List<Object> get props => [position, letter];
+}
+
 class SubmitGuess extends GameEvent {
   const SubmitGuess(this.guess);
   final String guess;

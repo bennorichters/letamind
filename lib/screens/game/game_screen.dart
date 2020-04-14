@@ -60,10 +60,9 @@ class _GameScreenState extends State<GameScreen> {
                           children: [
                             TableCell(
                               child: WordRow(
-                                length: length,
+                                letters: ('?' * length).split(''),
                                 sizeData: sizeData,
                                 color: Colors.blue,
-                                word: '?' * length,
                                 readOnly: true,
                               ),
                             ),
@@ -74,20 +73,18 @@ class _GameScreenState extends State<GameScreen> {
                           children: [
                             TableCell(
                               child: WordRow(
-                                length: length,
+                                letters: state.enteredLetters,
                                 sizeData: sizeData,
                                 color: Colors.green,
-                                word: '_' * length,
                                 readOnly: false,
                               ),
                             ),
                             TableCell(
-                              child: WordRow(
-                                length: 2,
-                                sizeData: sizeData,
-                                color: Colors.amber,
-                                word: 'VX',
-                                readOnly: true,
+                              child: Row(
+                                children: [
+                                  _SubmitButton(sizeData),
+                                  _SubmitButton(sizeData),
+                                ],
                               ),
                             ),
                           ],
@@ -103,6 +100,35 @@ class _GameScreenState extends State<GameScreen> {
 
         return const Center(child: CircularProgressIndicator());
       }),
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  const _SubmitButton(this.sizeData);
+  final SizeData sizeData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(sizeData.padding),
+      child: Container(
+        width: sizeData.size,
+        height: sizeData.size,
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        ),
+        child: Center(
+          child: Text(
+            'X',
+            style: TextStyle(
+              fontSize: sizeData.font,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

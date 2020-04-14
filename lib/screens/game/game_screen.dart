@@ -32,9 +32,8 @@ class _GameScreenState extends State<GameScreen> {
         GameState state,
       ) {
         if (state is PlayState) {
+          final length = state.wordLength;
           final width = MediaQuery.of(context).size.width;
-          print('GameScreen - width: $width');
-          final length = 4;
           final sizeData = SizeData.create(length: length, width: width);
 
           return Scaffold(
@@ -44,39 +43,54 @@ class _GameScreenState extends State<GameScreen> {
             body: Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 15),
-                child: Table(
-                  columnWidths: {
-                    0: FixedColumnWidth(
-                        (sizeData.size + 2 * sizeData.padding) * length +
-                            5),
-                    1: FixedColumnWidth(
-                        (sizeData.size + 2 * sizeData.padding) * 2 + 5),
-                  },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    TableRow(
-                      children: [
-                        TableCell(
-                          child: WordRow(
-                            length: length,
-                            sizeData: sizeData,
-                          ),
+                    Table(
+                      columnWidths: {
+                        0: FixedColumnWidth(
+                          (sizeData.size + 2 * sizeData.padding) * length + 5,
                         ),
-                        TableCell(child: Container()),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        TableCell(
-                          child: WordRow(
-                            length: length,
-                            sizeData: sizeData,
-                          ),
+                        1: FixedColumnWidth(
+                          (sizeData.size + 2 * sizeData.padding) * 2 + 5,
                         ),
-                        TableCell(
-                          child: WordRow(
-                            length: 2,
-                            sizeData: sizeData,
-                          ),
+                      },
+                      children: [
+                        TableRow(
+                          children: [
+                            TableCell(
+                              child: WordRow(
+                                length: length,
+                                sizeData: sizeData,
+                                color: Colors.blue,
+                                word: '?' * length,
+                                readOnly: true,
+                              ),
+                            ),
+                            TableCell(child: Container()),
+                          ],
+                        ),
+                        TableRow(
+                          children: [
+                            TableCell(
+                              child: WordRow(
+                                length: length,
+                                sizeData: sizeData,
+                                color: Colors.green,
+                                word: '_' * length,
+                                readOnly: false,
+                              ),
+                            ),
+                            TableCell(
+                              child: WordRow(
+                                length: 2,
+                                sizeData: sizeData,
+                                color: Colors.amber,
+                                word: 'VX',
+                                readOnly: true,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

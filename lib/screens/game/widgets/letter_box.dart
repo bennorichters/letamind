@@ -5,12 +5,14 @@ import 'package:letamind/screens/game/utils/size_data.dart';
 class LetterBox extends StatefulWidget {
   const LetterBox({
     @required this.letter,
-    @required this.borderColor,
+    @required this.color,
     @required this.sizeData,
+    @required this.readOnly,
   });
   final String letter;
-  final Color borderColor;
+  final Color color;
   final SizeData sizeData;
+  final bool readOnly;
 
   @override
   State<StatefulWidget> createState() => _LetterBoxState();
@@ -42,10 +44,13 @@ class _LetterBoxState extends State<LetterBox> {
       child: Container(
         height: widget.sizeData.size,
         width: widget.sizeData.size,
-        color: Colors.transparent,
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(width: widget.sizeData.border, color: widget.borderColor),
+            color: widget.readOnly ? widget.color : Colors.transparent,
+            border: Border.all(
+              width: widget.sizeData.border,
+              color: widget.color,
+            ),
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           ),
           child: TextField(
@@ -57,7 +62,9 @@ class _LetterBoxState extends State<LetterBox> {
             enableInteractiveSelection: false,
             focusNode: _focusNode,
             inputFormatters: [LengthLimitingTextInputFormatter(1)],
-            style: TextStyle(fontSize: widget.sizeData.font, fontWeight: FontWeight.bold),
+            readOnly: widget.readOnly,
+            style: TextStyle(
+                fontSize: widget.sizeData.font, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
             onChanged: (value) {
               _controller.value = TextEditingValue(

@@ -3,43 +3,6 @@ import 'dart:math' as Math;
 import 'package:flutter/material.dart';
 
 const _data = {
-  414: {
-    4: {
-      'padding': 4.0,
-      'border': 5.0,
-      'size': 55.0,
-      'font': 18.0,
-      'cPadding': 5.0,
-    },
-    5: {
-      'padding': 3.0,
-      'border': 4.0,
-      'size': 48.0,
-      'font': 18.0,
-      'cPadding': 5.0,
-    },
-    6: {
-      'padding': 2.5,
-      'border': 3.0,
-      'size': 45.0,
-      'font': 17.0,
-      'cPadding': 9.0,
-    },
-    7: {
-      'padding': 2.0,
-      'border': 2.5,
-      'size': 40.0,
-      'font': 16.0,
-      'cPadding': 11.0,
-    },
-    8: {
-      'padding': 1.5,
-      'border': 2.0,
-      'size': 37.0,
-      'font': 15.0,
-      'cPadding': 13.0,
-    },
-  },
   360: {
     4: {
       'padding': 3.0,
@@ -75,6 +38,43 @@ const _data = {
       'size': 31.0,
       'font': 13.0,
       'cPadding': 18.0,
+    },
+  },
+  414: {
+    4: {
+      'padding': 4.0,
+      'border': 5.0,
+      'size': 55.0,
+      'font': 18.0,
+      'cPadding': 5.0,
+    },
+    5: {
+      'padding': 3.0,
+      'border': 4.0,
+      'size': 48.0,
+      'font': 18.0,
+      'cPadding': 5.0,
+    },
+    6: {
+      'padding': 2.5,
+      'border': 3.0,
+      'size': 45.0,
+      'font': 17.0,
+      'cPadding': 9.0,
+    },
+    7: {
+      'padding': 2.0,
+      'border': 2.5,
+      'size': 40.0,
+      'font': 16.0,
+      'cPadding': 11.0,
+    },
+    8: {
+      'padding': 1.5,
+      'border': 2.0,
+      'size': 37.0,
+      'font': 15.0,
+      'cPadding': 13.0,
     },
   },
 };

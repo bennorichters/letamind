@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:letamind/data/settings.dart';
 
 class Dictionary {
@@ -8,6 +9,14 @@ class Dictionary {
 
 abstract class DictionaryProvider {
   Future<Dictionary> provide(Language language);
+}
+
+class AssetDictionaryProvider extends DictionaryProvider {
+  @override
+  Future<Dictionary> provide(Language language) async {
+    final words = await rootBundle.loadString('assets/lang/${language.code}/words.dic');
+    return Dictionary(language: language, words: words.split('\n'));
+  }
 }
 
 class WordProvider {

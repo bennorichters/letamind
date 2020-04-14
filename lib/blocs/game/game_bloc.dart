@@ -33,7 +33,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       final settings = await settingsProvider.provide();
       final dict = await dictionaryProvider.provide(settings.language);
       wordProvider.dictionary = dict;
-      _word = wordProvider.random(settings.wordLength);
+      _word = wordProvider.random(settings.wordLength).toUpperCase();
+      // print('Word to guess: $_word');
       _enteredLetters = List.generate(settings.wordLength, (_) => null);
       _moves = [];
       _finished = false;

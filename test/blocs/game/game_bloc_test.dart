@@ -16,6 +16,7 @@ void main() {
   group('game bloc', () {
     SettingsProvider settingsProvider;
     DictionaryProvider dictionaryProvider;
+    DictionaryProvider letterDictionaryProvider;
     WordProvider wordProvider = WordProvider();
 
     final testSettings = Settings(language: Language.Dutch, wordLength: 5);
@@ -30,6 +31,13 @@ void main() {
           .thenAnswer((_) => Future.value(Dictionary(
                 language: Language.Dutch,
                 words: ['1234', '12345'],
+              )));
+
+      letterDictionaryProvider = MockDictionaryProvider();
+      when(letterDictionaryProvider.provide(any))
+          .thenAnswer((_) => Future.value(Dictionary(
+                language: Language.Dutch,
+                words: ['abcde'],
               )));
     });
 
@@ -107,6 +115,35 @@ void main() {
     );
 
     blocTest(
+      'case insensitive guess',
+      build: () async => GameBloc(
+        settingsProvider: settingsProvider,
+        dictionaryProvider: letterDictionaryProvider,
+        wordProvider: wordProvider,
+      ),
+      act: (bloc) {
+        bloc.add(StartNewGame());
+        bloc.add(EnteredLetter(position: 0, letter: 'a'));
+        bloc.add(EnteredLetter(position: 1, letter: 'b'));
+        bloc.add(EnteredLetter(position: 2, letter: 'c'));
+        bloc.add(EnteredLetter(position: 3, letter: 'd'));
+        bloc.add(EnteredLetter(position: 4, letter: 'e'));
+        bloc.add(SubmitGuess());
+        return;
+      },
+      skip: 7,
+      expect: [
+        PlayState(
+          enteredLetters: [null, null, null, null, null],
+          moves: [
+            Move(letters: ['A', 'B', 'C', 'D', 'E'], score: 10)
+          ],
+          finished: false,
+        )
+      ],
+    );
+
+    blocTest(
       'entered letters empty after submit',
       build: () async => GameBloc(
         settingsProvider: settingsProvider,
@@ -120,14 +157,16 @@ void main() {
         bloc.add(EnteredLetter(position: 2, letter: 'b'));
         bloc.add(EnteredLetter(position: 3, letter: 'b'));
         bloc.add(EnteredLetter(position: 4, letter: 'b'));
-          bloc.add(SubmitGuess());
+        bloc.add(SubmitGuess());
         return;
       },
       skip: 7,
       expect: [
         PlayState(
           enteredLetters: [null, null, null, null, null],
-          moves: [Move(letters: ['A','A','B','B','B'], score: 0)],
+          moves: [
+            Move(letters: ['A', 'A', 'B', 'B', 'B'], score: 0)
+          ],
           finished: false,
         )
       ],

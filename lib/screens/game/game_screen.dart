@@ -107,8 +107,16 @@ class _GameScreenState extends State<GameScreen> {
                         ? Text('nothing')
                         : Flexible(
                             child: ListView(
-                              children: state.moves
-                                  .map((move) => Text(move.guess))
+                              children: state.moves.reversed
+                                  .map((move) => Row(
+                                        children: move.letters
+                                            .map((letter) => LetterBox(
+                                                  letter: letter,
+                                                  color: Colors.lightGreen,
+                                                  sizeData: sizeData,
+                                                ))
+                                            .toList(),
+                                      ))
                                   .toList(),
                             ),
                           )

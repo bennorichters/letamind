@@ -43,19 +43,18 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       _enteredLetters[event.position] = event.letter.toUpperCase();
       yield _fromProps();
     } else if (event is SubmitGuess) {
-      String guess = _enteredLetters.join();
       int score = 0;
 
       for (int i = 0; i < _word.length; i++) {
         String char = _word[i];
-        if (guess[i] == char) {
+        if (_enteredLetters[i] == char) {
           score += 2;
-        } else if (guess.contains(char)) {
+        } else if (_enteredLetters.contains(char)) {
           score++;
         }
       }
 
-      _moves.add(Move(guess: guess, score: score));
+      _moves.add(Move(letters: [..._enteredLetters], score: score));
       yield _fromProps();
     }
   }
@@ -68,12 +67,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 }
 
 class Move extends Equatable {
-  const Move({@required this.guess, @required this.score});
-  final String guess;
+  const Move({@required this.letters, @required this.score});
+  final List<String> letters;
   final int score;
 
   @override
-  List<Object> get props => [guess, score];
+  List<Object> get props => [letters, score];
 
   @override
   bool get stringify => true;

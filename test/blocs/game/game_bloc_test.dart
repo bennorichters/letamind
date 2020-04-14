@@ -129,7 +129,7 @@ void main() {
         expect: [
           PlayState(
             enteredLetters: guess.split(''),
-            moves: [Move(guess: guess, score: expectedScore)],
+            moves: [Move(letters: guess.split(''), score: expectedScore)],
             finished: false,
           )
         ],

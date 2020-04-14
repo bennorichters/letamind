@@ -18,28 +18,41 @@ class LetterInputBox extends StatefulWidget {
   State<StatefulWidget> createState() => _LetterInputBoxState();
 }
 
+const _textSelection = TextSelection(
+  baseOffset: 0,
+  extentOffset: 1,
+);
+
 class _LetterInputBoxState extends State<LetterInputBox> {
-  final _controller = TextEditingController();
-  final _focusNode = FocusNode();
+  TextEditingController _controller;
+  FocusNode _focusNode;
 
   @override
   initState() {
     super.initState();
 
+    _controller = TextEditingController();
+    _controller.text = widget.letter;
+  
+    _focusNode = FocusNode();
+
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
-        _controller.selection = TextSelection(
-          baseOffset: 0,
-          extentOffset: _controller.text.length,
-        );
+        _controller.selection = _textSelection;
       }
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    _controller.text = widget.letter;
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
 
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(widget.sizeData.padding),
       child: Container(
@@ -69,22 +82,23 @@ class _LetterInputBoxState extends State<LetterInputBox> {
             ),
             textAlign: TextAlign.center,
             onChanged: (value) {
+              final fixedValue = _fixValue(value);
               _controller.value = TextEditingValue(
-                text: value.toUpperCase(),
-                selection: _controller.selection,
+                text: fixedValue,
+                selection: _textSelection,
               );
 
-              if (widget.isLast) {
-                _focusNode.unfocus();
-              } else {
-                _focusNode.nextFocus();
-              }
+              _focusNode.nextFocus();
 
-              widget.onChangeCallback(value);
+              widget.onChangeCallback(fixedValue);
             },
           ),
         ),
       ),
     );
   }
+
+  String _fixValue(String value) => (value == null || value.trim().isEmpty)
+      ? '_'
+      : value.substring(0, 1).toUpperCase();
 }

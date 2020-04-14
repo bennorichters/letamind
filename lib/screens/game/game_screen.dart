@@ -37,6 +37,7 @@ class _GameScreenState extends State<GameScreen> {
           final width = MediaQuery.of(context).size.width;
           final sizeData = SizeData.create(length: length, width: width);
 
+          const space = SizedBox(width: 10);
           return Scaffold(
             appBar: AppBar(
               title: const Text('Letamind'),
@@ -65,13 +66,13 @@ class _GameScreenState extends State<GameScreen> {
                                   (i, letter) => MapEntry(
                                     i,
                                     LetterInputBox(
-                                      letter: letter,
+                                      letter: letter ?? '_',
                                       sizeData: sizeData,
                                       onChangeCallback: (String letter) {
                                         BlocProvider.of<GameBloc>(context).add(
                                           EnteredLetter(
                                             position: i,
-                                            letter: letter ?? '_',
+                                            letter: letter,
                                           ),
                                         );
                                       },
@@ -81,7 +82,7 @@ class _GameScreenState extends State<GameScreen> {
                                 )
                                 .values
                                 .toList()),
-                        SizedBox(width: 10),
+                        space,
                         Row(
                           children: [
                             _SubmitButton(
@@ -108,15 +109,19 @@ class _GameScreenState extends State<GameScreen> {
                         : Flexible(
                             child: ListView(
                               children: state.moves.reversed
-                                  .map((move) => Row(
-                                        children: move.letters
-                                            .map((letter) => LetterBox(
-                                                  letter: letter,
-                                                  color: Colors.lightGreen,
-                                                  sizeData: sizeData,
-                                                ))
-                                            .toList(),
-                                      ))
+                                  .map((move) => Row(children: [
+                                        Row(
+                                          children: move.letters
+                                              .map((letter) => LetterBox(
+                                                    letter: letter,
+                                                    color: Colors.lightGreen,
+                                                    sizeData: sizeData,
+                                                  ))
+                                              .toList(),
+                                        ),
+                                        space,
+                                        Text(move.score.toString())
+                                      ]))
                                   .toList(),
                             ),
                           )

@@ -55,6 +55,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       }
 
       _moves.add(Move(letters: [..._enteredLetters], score: score));
+      _enteredLetters.fillRange(0, _enteredLetters.length, null);
       yield _fromProps();
     }
   }

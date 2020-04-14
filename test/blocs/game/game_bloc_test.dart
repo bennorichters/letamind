@@ -106,6 +106,33 @@ void main() {
       ],
     );
 
+    blocTest(
+      'entered letters empty after submit',
+      build: () async => GameBloc(
+        settingsProvider: settingsProvider,
+        dictionaryProvider: dictionaryProvider,
+        wordProvider: wordProvider,
+      ),
+      act: (bloc) {
+        bloc.add(StartNewGame());
+        bloc.add(EnteredLetter(position: 0, letter: 'a'));
+        bloc.add(EnteredLetter(position: 1, letter: 'a'));
+        bloc.add(EnteredLetter(position: 2, letter: 'b'));
+        bloc.add(EnteredLetter(position: 3, letter: 'b'));
+        bloc.add(EnteredLetter(position: 4, letter: 'b'));
+          bloc.add(SubmitGuess());
+        return;
+      },
+      skip: 7,
+      expect: [
+        PlayState(
+          enteredLetters: [null, null, null, null, null],
+          moves: [Move(letters: ['A','A','B','B','B'], score: 0)],
+          finished: false,
+        )
+      ],
+    );
+
     @isTest
     void scoreTest(String guess, int expectedScore) {
       blocTest(
@@ -128,7 +155,7 @@ void main() {
         skip: 7,
         expect: [
           PlayState(
-            enteredLetters: guess.split(''),
+            enteredLetters: [null, null, null, null, null],
             moves: [Move(letters: guess.split(''), score: expectedScore)],
             finished: false,
           )

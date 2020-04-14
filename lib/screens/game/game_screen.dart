@@ -24,7 +24,6 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return BlocListener<GameBloc, GameState>(
       listener: (BuildContext context, GameState state) {
-        print('GameScreen.build - listener - $state');
         // if (state is SettingsSaved) {
         //   Navigator.pushReplacementNamed(context, 'settings');
         // }
@@ -33,8 +32,6 @@ class _GameScreenState extends State<GameScreen> {
         BuildContext context,
         GameState state,
       ) {
-        print('GameScreen.build - $state');
-
         if (state is PlayState) {
           final length = state.wordLength;
           final width = MediaQuery.of(context).size.width;

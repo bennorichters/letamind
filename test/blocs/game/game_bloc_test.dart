@@ -73,7 +73,7 @@ void main() {
         bloc.add(EnteredLetter(position: 2, letter: 'a'));
         return;
       },
-      skip: 1,
+      skip: 2,
       expect: [
         PlayState(
           enteredLetters: [null, null, 'A', null, null],
@@ -96,7 +96,7 @@ void main() {
         bloc.add(EnteredLetter(position: 3, letter: 'b'));
         return;
       },
-      skip: 1,
+      skip: 3,
       expect: [
         PlayState(
           enteredLetters: [null, null, 'A', 'B', null],
@@ -117,13 +117,18 @@ void main() {
         ),
         act: (bloc) {
           bloc.add(StartNewGame());
-          bloc.add(SubmitGuess(guess));
+          bloc.add(EnteredLetter(position: 0, letter: guess.substring(0, 1)));
+          bloc.add(EnteredLetter(position: 1, letter: guess.substring(1, 2)));
+          bloc.add(EnteredLetter(position: 2, letter: guess.substring(2, 3)));
+          bloc.add(EnteredLetter(position: 3, letter: guess.substring(3, 4)));
+          bloc.add(EnteredLetter(position: 4, letter: guess.substring(4, 5)));
+          bloc.add(SubmitGuess());
           return;
         },
-        skip: 1,
+        skip: 7,
         expect: [
           PlayState(
-            enteredLetters: [null, null, null, null, null],
+            enteredLetters: guess.split(''),
             moves: [Move(guess: guess, score: expectedScore)],
             finished: false,
           )

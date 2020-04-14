@@ -5,13 +5,11 @@ import 'package:letamind/screens/game/utils/size_data.dart';
 class LetterInputBox extends StatefulWidget {
   const LetterInputBox({
     @required this.letter,
-    @required this.color,
     @required this.sizeData,
     @required this.onChangeCallback,
     @required this.isLast,
   });
   final String letter;
-  final Color color;
   final SizeData sizeData;
   final Function onChangeCallback;
   final bool isLast;
@@ -52,7 +50,7 @@ class _LetterInputBoxState extends State<LetterInputBox> {
             color: Colors.transparent,
             border: Border.all(
               width: widget.sizeData.border,
-              color: widget.color,
+              color: Colors.green,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           ),

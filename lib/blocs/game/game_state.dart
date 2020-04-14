@@ -8,7 +8,7 @@ class InitialGameState extends GameState {
   const InitialGameState();
 
   @override
-  List<Object> get props => null;
+  List<Object> get props => [];
 }
 
 class PlayState extends GameState {

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
-import 'package:letamind/screens/game/widgets/word_row.dart';
+import 'package:letamind/screens/game/widgets/letter_box.dart';
+import 'package:letamind/screens/game/widgets/letter_input_box.dart';
 
 class GameScreen extends StatefulWidget {
   GameScreen({Key key, this.title}) : super(key: key);
@@ -23,6 +24,7 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return BlocListener<GameBloc, GameState>(
       listener: (BuildContext context, GameState state) {
+        print('GameScreen.build - listener - $state');
         // if (state is SettingsSaved) {
         //   Navigator.pushReplacementNamed(context, 'settings');
         // }
@@ -31,6 +33,8 @@ class _GameScreenState extends State<GameScreen> {
         BuildContext context,
         GameState state,
       ) {
+        print('GameScreen.build - $state');
+
         if (state is PlayState) {
           final length = state.wordLength;
           final width = MediaQuery.of(context).size.width;
@@ -46,51 +50,71 @@ class _GameScreenState extends State<GameScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Table(
-                      columnWidths: {
-                        0: FixedColumnWidth(
-                          (sizeData.size + 2 * sizeData.padding) * length + 5,
-                        ),
-                        1: FixedColumnWidth(
-                          (sizeData.size + 2 * sizeData.padding) * 2 + 5,
-                        ),
-                      },
-                      children: [
-                        TableRow(
-                          children: [
-                            TableCell(
-                              child: WordRow(
-                                letters: ('?' * length).split(''),
-                                sizeData: sizeData,
+                    Row(
+                      children: List.generate(
+                          length,
+                          (_) => LetterBox(
+                                letter: '?',
                                 color: Colors.blue,
-                                readOnly: true,
-                              ),
-                            ),
-                            TableCell(child: Container()),
-                          ],
-                        ),
-                        TableRow(
-                          children: [
-                            TableCell(
-                              child: WordRow(
-                                letters: state.enteredLetters,
                                 sizeData: sizeData,
-                                color: Colors.green,
-                                readOnly: false,
-                              ),
+                              )),
+                    ),
+                    Row(
+                      children: [
+                        Row(
+                            children: state.enteredLetters
+                                .asMap()
+                                .map(
+                                  (i, letter) => MapEntry(
+                                    i,
+                                    LetterInputBox(
+                                      letter: letter,
+                                      sizeData: sizeData,
+                                      onChangeCallback: (String letter) {
+                                        BlocProvider.of<GameBloc>(context).add(
+                                          EnteredLetter(
+                                            position: i,
+                                            letter: letter ?? '_',
+                                          ),
+                                        );
+                                      },
+                                      isLast: i == state.wordLength - 1,
+                                    ),
+                                  ),
+                                )
+                                .values
+                                .toList()),
+                        SizedBox(width: 10),
+                        Row(
+                          children: [
+                            _SubmitButton(
+                              sizeData: sizeData,
+                              color: Colors.amber,
+                              icon: const Icon(Icons.cloud_upload),
+                              onTap: () {
+                                BlocProvider.of<GameBloc>(context)
+                                    .add(SubmitGuess());
+                              },
                             ),
-                            TableCell(
-                              child: Row(
-                                children: [
-                                  _SubmitButton(sizeData),
-                                  _SubmitButton(sizeData),
-                                ],
-                              ),
+                            _SubmitButton(
+                              sizeData: sizeData,
+                              color: Colors.red,
+                              icon: const Icon(Icons.cancel),
+                              onTap: () {},
                             ),
                           ],
                         ),
                       ],
                     ),
+                    state.moves.isEmpty
+                        ? Text('nothing')
+                        : Flexible(
+                            child: ListView(
+                              children: state.moves
+                                  .map((move) => Text(move.guess))
+                                  .toList(),
+                            ),
+                          )
                   ],
                 ),
               ),
@@ -105,28 +129,31 @@ class _GameScreenState extends State<GameScreen> {
 }
 
 class _SubmitButton extends StatelessWidget {
-  const _SubmitButton(this.sizeData);
+  const _SubmitButton({
+    @required this.sizeData,
+    @required this.color,
+    @required this.icon,
+    @required this.onTap,
+  });
   final SizeData sizeData;
+  final Color color;
+  final Icon icon;
+  final GestureTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(sizeData.padding),
-      child: Container(
-        width: sizeData.size,
-        height: sizeData.size,
-        decoration: BoxDecoration(
-          color: Colors.amber,
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        ),
-        child: Center(
-          child: Text(
-            'X',
-            style: TextStyle(
-              fontSize: sizeData.font,
-              fontWeight: FontWeight.bold,
-            ),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: sizeData.size,
+          height: sizeData.size,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           ),
+          child: Center(child: icon),
         ),
       ),
     );

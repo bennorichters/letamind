@@ -38,20 +38,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       _moves = [];
       _finished = false;
 
-      yield PlayState(
-        enteredLetters: _enteredLetters,
-        moves: _moves,
-        finished: _finished,
-      );
+      yield _fromProps();
     } else if (event is EnteredLetter) {
       _enteredLetters[event.position] = event.letter.toUpperCase();
-      yield PlayState(
-        enteredLetters: _enteredLetters,
-        moves: _moves,
-        finished: _finished,
-      );
+      yield _fromProps();
     } else if (event is SubmitGuess) {
-      String guess = event.guess;
+      String guess = _enteredLetters.join();
       int score = 0;
 
       for (int i = 0; i < _word.length; i++) {
@@ -63,13 +55,16 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         }
       }
 
-      yield PlayState(
-        enteredLetters: _enteredLetters,
-        moves: _moves..add(Move(guess: guess, score: score)),
-        finished: false,
-      );
+      _moves.add(Move(guess: guess, score: score));
+      yield _fromProps();
     }
   }
+
+  PlayState _fromProps() => PlayState(
+        enteredLetters: [..._enteredLetters],
+        moves: [..._moves],
+        finished: _finished,
+      );
 }
 
 class Move extends Equatable {

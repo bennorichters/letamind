@@ -66,6 +66,11 @@ class _GameScreenState extends State<GameScreen> {
                                   (i, letter) => MapEntry(
                                     i,
                                     LetterInputBox(
+                                      key: Key(
+                                        'letter_input_box_'
+                                        '${state.moves.length}_'
+                                        '$i',
+                                      ),
                                       letter: letter ?? '_',
                                       sizeData: sizeData,
                                       onChangeCallback: (String letter) {
@@ -76,7 +81,7 @@ class _GameScreenState extends State<GameScreen> {
                                           ),
                                         );
                                       },
-                                      isLast: i == state.wordLength - 1,
+                                      autofocus: i == 0,
                                     ),
                                   ),
                                 )

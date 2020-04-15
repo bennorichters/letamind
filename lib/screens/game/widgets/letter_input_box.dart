@@ -7,12 +7,13 @@ class LetterInputBox extends StatefulWidget {
     @required this.letter,
     @required this.sizeData,
     @required this.onChangeCallback,
-    @required this.isLast,
-  });
+    @required this.autofocus,
+    @required Key key,
+  }) : super(key: key);
   final String letter;
   final SizeData sizeData;
   final Function onChangeCallback;
-  final bool isLast;
+  final bool autofocus;
 
   @override
   State<StatefulWidget> createState() => _LetterInputBoxState();
@@ -35,7 +36,6 @@ class _LetterInputBoxState extends State<LetterInputBox> {
     _controller.text = widget.letter;
   
     _focusNode = FocusNode();
-
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
         _controller.selection = _textSelection;
@@ -81,6 +81,7 @@ class _LetterInputBoxState extends State<LetterInputBox> {
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
+            autofocus: widget.autofocus,
             onChanged: (value) {
               final fixedValue = _fixValue(value);
               _controller.value = TextEditingValue(

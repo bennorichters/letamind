@@ -88,15 +88,6 @@ class _GameScreenState extends State<GameScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Row(
-                      children: List.generate(
-                          length,
-                          (_) => LetterBox(
-                                letter: '?',
-                                color: Colors.blue,
-                                sizeData: sizeData,
-                              )),
-                    ),
-                    Row(
                       children: [
                         Row(
                           children: _letterInputBoxes(

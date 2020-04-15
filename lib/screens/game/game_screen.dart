@@ -14,9 +14,48 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+  // A FocusNode cannot be initialized in the build method
+  // See https://stackoverflow.com/questions/56038010/
+  final _controllers = <TextEditingController>[];
+  final _focusNodes = <FocusNode>[];
+
+  static const _maxWordLength = 8;
+  static const _emptyBoxChar = '_';
+  static const _textSelection = TextSelection(baseOffset: 0, extentOffset: 1);
+  static String _fixText(String value) =>
+      (value == null || value.trim().isEmpty)
+          ? _emptyBoxChar
+          : value.substring(0, 1).toUpperCase();
+
   @override
   void initState() {
     super.initState();
+
+    for (var i = 0; i < _maxWordLength; i++) {
+      final controller = TextEditingController()..text = _emptyBoxChar;
+      final focusNode = FocusNode();
+
+      focusNode.addListener(() {
+        if (focusNode.hasFocus) {
+          controller.value = TextEditingValue(
+            text: controller.text,
+            selection: _textSelection,
+          );
+        }
+      });
+
+      controller.addListener(() {
+        final fixedText = _fixText(controller.text);
+        controller.value = controller.value.copyWith(
+          text: fixedText,
+          composing: TextRange.empty,
+        );
+      });
+
+      _controllers.add(controller);
+      _focusNodes.add(focusNode);
+    }
+
     BlocProvider.of<GameBloc>(context).add(const StartNewGame());
   }
 
@@ -60,33 +99,12 @@ class _GameScreenState extends State<GameScreen> {
                     Row(
                       children: [
                         Row(
-                            children: state.enteredLetters
-                                .asMap()
-                                .map(
-                                  (i, letter) => MapEntry(
-                                    i,
-                                    LetterInputBox(
-                                      key: Key(
-                                        'letter_input_box_'
-                                        '${state.moves.length}_'
-                                        '$i',
-                                      ),
-                                      letter: letter ?? '_',
-                                      sizeData: sizeData,
-                                      onChangeCallback: (String letter) {
-                                        BlocProvider.of<GameBloc>(context).add(
-                                          EnteredLetter(
-                                            position: i,
-                                            letter: letter,
-                                          ),
-                                        );
-                                      },
-                                      autofocus: i == 0,
-                                    ),
-                                  ),
-                                )
-                                .values
-                                .toList()),
+                          children: _letterInputBoxes(
+                            context,
+                            state.enteredLetters,
+                            sizeData,
+                          ),
+                        ),
                         space,
                         Row(
                           children: [
@@ -140,6 +158,24 @@ class _GameScreenState extends State<GameScreen> {
         return const Center(child: CircularProgressIndicator());
       }),
     );
+  }
+
+  List<LetterInputBox> _letterInputBoxes(
+    BuildContext context,
+    List<String> enteredLetters,
+    SizeData sizeData,
+  ) {
+    final result = <LetterInputBox>[];
+    for (var i = 0; i < enteredLetters.length; i++) {
+      result.add(LetterInputBox(
+        sizeData: sizeData,
+        autofocus: i == 0,
+        controller: _controllers[i],
+        focusNode: _focusNodes[i],
+      ));
+    }
+
+    return result;
   }
 }
 

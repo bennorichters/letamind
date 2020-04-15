@@ -2,104 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
 
-class LetterInputBox extends StatefulWidget {
+class LetterInputBox extends StatelessWidget {
   const LetterInputBox({
-    @required this.letter,
     @required this.sizeData,
-    @required this.onChangeCallback,
     @required this.autofocus,
-    @required Key key,
-  }) : super(key: key);
-  final String letter;
+    @required this.controller,
+    @required this.focusNode,
+  });
   final SizeData sizeData;
-  final Function onChangeCallback;
   final bool autofocus;
-
-  @override
-  State<StatefulWidget> createState() => _LetterInputBoxState();
-}
-
-const _textSelection = TextSelection(
-  baseOffset: 0,
-  extentOffset: 1,
-);
-
-class _LetterInputBoxState extends State<LetterInputBox> {
-  TextEditingController _controller;
-  FocusNode _focusNode;
-
-  @override
-  initState() {
-    super.initState();
-
-    _controller = TextEditingController();
-    _controller.text = widget.letter;
-  
-    _focusNode = FocusNode();
-    _focusNode.addListener(() {
-      if (_focusNode.hasFocus) {
-        _controller.selection = _textSelection;
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-
-    super.dispose();
-  }
+  final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(widget.sizeData.padding),
+      padding: EdgeInsets.all(sizeData.padding),
       child: Container(
-        height: widget.sizeData.size,
-        width: widget.sizeData.size,
+        height: sizeData.size,
+        width: sizeData.size,
         child: Container(
           decoration: BoxDecoration(
             color: Colors.transparent,
             border: Border.all(
-              width: widget.sizeData.border,
+              width: sizeData.border,
               color: Colors.green,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           ),
           child: TextField(
-            controller: _controller,
+            autofocus: autofocus,
+            controller: controller,
             decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.only(bottom: widget.sizeData.cPadding),
+              contentPadding: EdgeInsets.only(bottom: sizeData.cPadding),
             ),
             enableInteractiveSelection: false,
-            focusNode: _focusNode,
+            focusNode: focusNode,
             inputFormatters: [LengthLimitingTextInputFormatter(1)],
+            onChanged: (_) => focusNode.nextFocus(),
             style: TextStyle(
-              fontSize: widget.sizeData.font,
+              fontSize: sizeData.font,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
-            autofocus: widget.autofocus,
-            onChanged: (value) {
-              final fixedValue = _fixValue(value);
-              _controller.value = TextEditingValue(
-                text: fixedValue,
-                selection: _textSelection,
-              );
-
-              _focusNode.nextFocus();
-
-              widget.onChangeCallback(fixedValue);
-            },
           ),
         ),
       ),
     );
   }
-
-  String _fixValue(String value) => (value == null || value.trim().isEmpty)
-      ? '_'
-      : value.substring(0, 1).toUpperCase();
 }

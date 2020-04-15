@@ -113,11 +113,15 @@ class _GameScreenState extends State<GameScreen> {
                               color: Colors.amber,
                               icon: const Icon(Icons.cloud_upload),
                               onTap: () {
-                                BlocProvider.of<GameBloc>(context).add(
-                                  SubmitGuess(
-                                    guess: _guessedWord(state.wordLength),
-                                  ),
+                                final guess = _guessedWord(state.wordLength);
+                                _clearBoxes();
+                                _focusNodes[0].requestFocus();
+                                _controllers[0].value = TextEditingValue(
+                                  text: _controllers[0].text,
+                                  selection: _textSelection,
                                 );
+                                BlocProvider.of<GameBloc>(context)
+                                    .add(SubmitGuess(guess: guess));
                               },
                             ),
                             _SubmitButton(
@@ -190,6 +194,8 @@ class _GameScreenState extends State<GameScreen> {
 
     return result.toString();
   }
+
+  void _clearBoxes() => _controllers.forEach((c) => c.text = _emptyBoxChar);
 }
 
 class _SubmitButton extends StatelessWidget {

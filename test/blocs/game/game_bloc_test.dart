@@ -62,52 +62,7 @@ void main() {
       act: (bloc) => bloc.add(StartNewGame()),
       expect: [
         PlayState(
-          enteredLetters: [null, null, null, null, null],
-          moves: [],
-          finished: false,
-        )
-      ],
-    );
-
-    blocTest(
-      'enter letter',
-      build: () async => GameBloc(
-        settingsProvider: settingsProvider,
-        dictionaryProvider: dictionaryProvider,
-        wordProvider: wordProvider,
-      ),
-      act: (bloc) {
-        bloc.add(StartNewGame());
-        bloc.add(EnteredLetter(position: 2, letter: 'a'));
-        return;
-      },
-      skip: 2,
-      expect: [
-        PlayState(
-          enteredLetters: [null, null, 'A', null, null],
-          moves: [],
-          finished: false,
-        )
-      ],
-    );
-
-    blocTest(
-      'enter two letters',
-      build: () async => GameBloc(
-        settingsProvider: settingsProvider,
-        dictionaryProvider: dictionaryProvider,
-        wordProvider: wordProvider,
-      ),
-      act: (bloc) {
-        bloc.add(StartNewGame());
-        bloc.add(EnteredLetter(position: 2, letter: 'a'));
-        bloc.add(EnteredLetter(position: 3, letter: 'b'));
-        return;
-      },
-      skip: 3,
-      expect: [
-        PlayState(
-          enteredLetters: [null, null, 'A', 'B', null],
+          wordLength: 5,
           moves: [],
           finished: false,
         )
@@ -123,21 +78,14 @@ void main() {
       ),
       act: (bloc) {
         bloc.add(StartNewGame());
-        bloc.add(EnteredLetter(position: 0, letter: 'a'));
-        bloc.add(EnteredLetter(position: 1, letter: 'b'));
-        bloc.add(EnteredLetter(position: 2, letter: 'c'));
-        bloc.add(EnteredLetter(position: 3, letter: 'd'));
-        bloc.add(EnteredLetter(position: 4, letter: 'e'));
-        bloc.add(SubmitGuess());
+        bloc.add(SubmitGuess(guess: 'abcde'));
         return;
       },
-      skip: 7,
+      skip: 2,
       expect: [
         PlayState(
-          enteredLetters: [null, null, null, null, null],
-          moves: [
-            Move(letters: ['A', 'B', 'C', 'D', 'E'], score: 10)
-          ],
+          wordLength: 5,
+          moves: [Move(guess: 'ABCDE', score: 10)],
           finished: false,
         )
       ],
@@ -152,21 +100,14 @@ void main() {
       ),
       act: (bloc) {
         bloc.add(StartNewGame());
-        bloc.add(EnteredLetter(position: 0, letter: 'a'));
-        bloc.add(EnteredLetter(position: 1, letter: 'a'));
-        bloc.add(EnteredLetter(position: 2, letter: 'b'));
-        bloc.add(EnteredLetter(position: 3, letter: 'b'));
-        bloc.add(EnteredLetter(position: 4, letter: 'b'));
-        bloc.add(SubmitGuess());
+        bloc.add(SubmitGuess(guess: 'aabbb'));
         return;
       },
-      skip: 7,
+      skip: 2,
       expect: [
         PlayState(
-          enteredLetters: [null, null, null, null, null],
-          moves: [
-            Move(letters: ['A', 'A', 'B', 'B', 'B'], score: 0)
-          ],
+          wordLength: 5,
+          moves: [Move(guess: 'AABBB', score: 0)],
           finished: false,
         )
       ],
@@ -183,19 +124,14 @@ void main() {
         ),
         act: (bloc) {
           bloc.add(StartNewGame());
-          bloc.add(EnteredLetter(position: 0, letter: guess.substring(0, 1)));
-          bloc.add(EnteredLetter(position: 1, letter: guess.substring(1, 2)));
-          bloc.add(EnteredLetter(position: 2, letter: guess.substring(2, 3)));
-          bloc.add(EnteredLetter(position: 3, letter: guess.substring(3, 4)));
-          bloc.add(EnteredLetter(position: 4, letter: guess.substring(4, 5)));
-          bloc.add(SubmitGuess());
+          bloc.add(SubmitGuess(guess: guess));
           return;
         },
-        skip: 7,
+        skip: 2,
         expect: [
           PlayState(
-            enteredLetters: [null, null, null, null, null],
-            moves: [Move(letters: guess.split(''), score: expectedScore)],
+            wordLength: 5,
+            moves: [Move(guess: guess, score: expectedScore)],
             finished: false,
           )
         ],

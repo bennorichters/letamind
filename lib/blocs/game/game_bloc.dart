@@ -20,7 +20,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   final WordProvider wordProvider;
 
   String _word;
-  List<String> _enteredLetters;
   List<Move> _moves = [];
   bool _finished = false;
 
@@ -35,46 +34,43 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       wordProvider.dictionary = dict;
       _word = wordProvider.random(settings.wordLength).toUpperCase();
       // print('Word to guess: $_word');
-      _enteredLetters = List.generate(settings.wordLength, (_) => null);
       _moves = [];
       _finished = false;
 
       yield _fromProps();
-    } else if (event is EnteredLetter) {
-      _enteredLetters[event.position] = event.letter.toUpperCase();
-      yield _fromProps();
     } else if (event is SubmitGuess) {
-      int score = 0;
+      final guess = event.guess.toUpperCase();
 
+      int score = 0;
       for (int i = 0; i < _word.length; i++) {
-        String char = _word[i];
-        if (_enteredLetters[i] == char) {
+        String guessedLetter = guess[i];
+        String correctLetter = _word[i];
+        if (guessedLetter == correctLetter) {
           score += 2;
-        } else if (_enteredLetters.contains(char)) {
+        } else if (event.guess.contains(correctLetter)) {
           score++;
         }
       }
 
-      _moves.add(Move(letters: [..._enteredLetters], score: score));
-      _enteredLetters.fillRange(0, _enteredLetters.length, null);
+      _moves.add(Move(guess: guess, score: score));
       yield _fromProps();
     }
   }
 
   PlayState _fromProps() => PlayState(
-        enteredLetters: [..._enteredLetters],
+        wordLength: _word.length,
         moves: [..._moves],
         finished: _finished,
       );
 }
 
 class Move extends Equatable {
-  const Move({@required this.letters, @required this.score});
-  final List<String> letters;
+  const Move({@required this.guess, @required this.score});
+  final String guess;
   final int score;
 
   @override
-  List<Object> get props => [letters, score];
+  List<Object> get props => [guess, score];
 
   @override
   bool get stringify => true;

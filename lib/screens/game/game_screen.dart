@@ -101,7 +101,7 @@ class _GameScreenState extends State<GameScreen> {
                         Row(
                           children: _letterInputBoxes(
                             context,
-                            state.enteredLetters,
+                            state.wordLength,
                             sizeData,
                           ),
                         ),
@@ -113,8 +113,11 @@ class _GameScreenState extends State<GameScreen> {
                               color: Colors.amber,
                               icon: const Icon(Icons.cloud_upload),
                               onTap: () {
-                                BlocProvider.of<GameBloc>(context)
-                                    .add(SubmitGuess());
+                                BlocProvider.of<GameBloc>(context).add(
+                                  SubmitGuess(
+                                    guess: _guessedWord(state.wordLength),
+                                  ),
+                                );
                               },
                             ),
                             _SubmitButton(
@@ -134,7 +137,8 @@ class _GameScreenState extends State<GameScreen> {
                               children: state.moves.reversed
                                   .map((move) => Row(children: [
                                         Row(
-                                          children: move.letters
+                                          children: move.guess
+                                              .split('')
                                               .map((letter) => LetterBox(
                                                     letter: letter,
                                                     color: Colors.lightGreen,
@@ -162,11 +166,11 @@ class _GameScreenState extends State<GameScreen> {
 
   List<LetterInputBox> _letterInputBoxes(
     BuildContext context,
-    List<String> enteredLetters,
+    int length,
     SizeData sizeData,
   ) {
     final result = <LetterInputBox>[];
-    for (var i = 0; i < enteredLetters.length; i++) {
+    for (var i = 0; i < length; i++) {
       result.add(LetterInputBox(
         sizeData: sizeData,
         autofocus: i == 0,
@@ -176,6 +180,15 @@ class _GameScreenState extends State<GameScreen> {
     }
 
     return result;
+  }
+
+  _guessedWord(int length) {
+    final result = StringBuffer();
+    for (var i = 0; i < length; i++) {
+      result.write(_controllers[i].text);
+    }
+
+    return result.toString();
   }
 }
 

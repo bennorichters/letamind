@@ -57,12 +57,24 @@ class _GameScreenState extends State<GameScreen> {
                         : Flexible(
                             child: ListView(
                               children: state.moves.reversed
-                                  .map((move) => LetterRow(
-                                        word: move.guess,
-                                        sizeData: sizeData,
-                                        endOfRowWidget:
-                                            Text(move.score.toString()),
+                                  .toList()
+                                  .asMap()
+                                  .map((i, move) => MapEntry(
+                                        i,
+                                        LetterRow(
+                                          word: move.guess,
+                                          sizeData: sizeData,
+                                          color: Color.fromRGBO(
+                                            Colors.green.red,
+                                            Colors.green.green,
+                                            Colors.green.blue,
+                                            1 - i / state.moves.length,
+                                          ),
+                                          endOfRowWidget:
+                                              Text(move.score.toString()),
+                                        ),
                                       ))
+                                  .values
                                   .toList(),
                             ),
                           )

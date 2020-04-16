@@ -7,10 +7,12 @@ class LetterRow extends StatelessWidget {
   const LetterRow({
     @required this.word,
     @required this.sizeData,
+    @required this.color,
     @required this.endOfRowWidget,
   });
   final String word;
   final SizeData sizeData;
+  final Color color;
   final Widget endOfRowWidget;
 
   @override
@@ -20,7 +22,7 @@ class LetterRow extends StatelessWidget {
           .split('')
           .map((letter) => LetterBox(
                 letter: letter,
-                color: Colors.lightGreen,
+                color: color,
                 sizeData: sizeData,
               ))
           .toList(),

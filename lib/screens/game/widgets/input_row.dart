@@ -20,7 +20,6 @@ class _InputRowState extends State<InputRow> {
   final _controllers = <TextEditingController>[];
   final _focusNodes = <FocusNode>[];
 
-  static const _maxWordLength = 8;
   static const _emptyBoxChar = '_';
   static const _textSelection = TextSelection(baseOffset: 0, extentOffset: 1);
   static String _fixText(String value) =>
@@ -34,7 +33,7 @@ class _InputRowState extends State<InputRow> {
   void initState() {
     super.initState();
 
-    for (var i = 0; i < _maxWordLength; i++) {
+    for (var i = 0; i < widget.length; i++) {
       final controller = TextEditingController()..text = _emptyBoxChar;
       final focusNode = FocusNode();
 

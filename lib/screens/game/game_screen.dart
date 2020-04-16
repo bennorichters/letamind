@@ -47,11 +47,18 @@ class _GameScreenState extends State<GameScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    InputRow(
-                      length: state.wordLength,
-                      allowedLetters: state.allowedLetters,
-                      sizeData: sizeData,
-                    ),
+                    state.finished
+                        ? LetterRow(
+                            word: state.moves.last.guess,
+                            sizeData: sizeData,
+                            color: Colors.purple,
+                            endOfRowWidget: Container(),
+                          )
+                        : InputRow(
+                            length: state.wordLength,
+                            allowedLetters: state.allowedLetters,
+                            sizeData: sizeData,
+                          ),
                     state.moves.isEmpty
                         ? Text('nothing')
                         : Flexible(

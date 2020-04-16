@@ -110,13 +110,13 @@ class _InputRowState extends State<InputRow> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: new Text('Oops'),
-                        content: new Text('The letters '
+                        title: Text('Oops'),
+                        content: Text('The letters '
                             '${validation['invalidLetters']}'
                             ' are not allowed'),
                         actions: [
-                          new FlatButton(
-                            child: new Text('Ok!'),
+                          FlatButton(
+                            child: Text('Ok!'),
                             onPressed: () => Navigator.of(context).pop(),
                           ),
                         ],

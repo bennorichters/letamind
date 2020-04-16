@@ -1,6 +1,9 @@
 import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:letamind/data/word_provider.dart';
 
 const _defaultSettings = Settings(
   language: Language.Dutch,
@@ -9,31 +12,12 @@ const _defaultSettings = Settings(
 
 const _storageKey = 'letamind';
 
-enum Language { Dutch, English, Hungarian }
-
-extension LanguageCodeExtension on Language {
-  String get code {
-    switch (this) {
-      case Language.Dutch:
-        return 'nl';
-      case Language.English:
-        return 'en';
-      case Language.Hungarian:
-        return 'hu';
-      default:
-        throw Error();
-    }
-  }
-}
-
-Language _fromCode(String code) =>
-    Language.values.firstWhere((value) => value.code == code);
-
 class Settings extends Equatable {
   const Settings({this.language, this.wordLength});
 
   Settings.fromJson(Map<String, dynamic> json)
-      : language = _fromCode(json['language']),
+      : language = Language.values
+            .firstWhere((value) => value.code == json['language']),
         wordLength = json['wordLength'];
 
   final Language language;

@@ -30,6 +30,7 @@ void main() {
       when(dictionaryProvider.provide(any))
           .thenAnswer((_) => Future.value(Dictionary(
                 language: Language.Dutch,
+                allowedLetters: {},
                 words: ['1234', '12345'],
               )));
 
@@ -37,6 +38,7 @@ void main() {
       when(letterDictionaryProvider.provide(any))
           .thenAnswer((_) => Future.value(Dictionary(
                 language: Language.Dutch,
+                allowedLetters: {},
                 words: ['abcde'],
               )));
     });
@@ -63,6 +65,7 @@ void main() {
       expect: [
         PlayState(
           wordLength: 5,
+          allowedLetters: {},
           moves: [],
           finished: false,
         )
@@ -85,6 +88,7 @@ void main() {
       expect: [
         PlayState(
           wordLength: 5,
+          allowedLetters: {},
           moves: [Move(guess: 'ABCDE', score: 10)],
           finished: false,
         )
@@ -107,6 +111,7 @@ void main() {
       expect: [
         PlayState(
           wordLength: 5,
+          allowedLetters: {},
           moves: [Move(guess: 'AABBB', score: 0)],
           finished: false,
         )
@@ -131,6 +136,7 @@ void main() {
         expect: [
           PlayState(
             wordLength: 5,
+            allowedLetters: {},
             moves: [Move(guess: guess, score: expectedScore)],
             finished: false,
           )

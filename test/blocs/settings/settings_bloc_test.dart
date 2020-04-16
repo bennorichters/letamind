@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:letamind/data/settings.dart';
+import 'package:letamind/data/word_provider.dart';
 import 'package:letamind/utils/text.dart';
 import 'package:mockito/mockito.dart';
 

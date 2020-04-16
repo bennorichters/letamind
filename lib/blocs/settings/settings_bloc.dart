@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:letamind/data/settings.dart';
+import 'package:letamind/data/word_provider.dart';
 import 'package:letamind/utils/text.dart';
 
 part 'settings_event.dart';

@@ -1,4 +1,4 @@
-import 'package:letamind/data/settings.dart';
+import 'package:letamind/data/word_provider.dart';
 
 extension TranslationExtenion on String {
   static Language language = Language.English;

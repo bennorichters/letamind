@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
+import 'package:letamind/screens/game/widgets/game_row.dart';
 
 import 'letter_input_box.dart';
 
@@ -31,8 +32,6 @@ class _InputRowState extends State<InputRow> {
       (value == null || value.trim().isEmpty)
           ? _emptyBoxChar
           : value.substring(0, 1).toUpperCase();
-
-  static const space = SizedBox(width: 10);
 
   @override
   void initState() {
@@ -74,67 +73,62 @@ class _InputRowState extends State<InputRow> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Row(
-          children: List.generate(
-            widget.length,
-            (i) => LetterInputBox(
-              sizeData: widget.sizeData,
-              autofocus: i == 0,
-              controller: _controllers[i],
-              focusNode: _focusNodes[i],
-            ),
+    return GameRow(
+      children: List.generate(
+        widget.length,
+        (i) => LetterInputBox(
+          sizeData: widget.sizeData,
+          autofocus: i == 0,
+          controller: _controllers[i],
+          focusNode: _focusNodes[i],
+        ),
+      ),
+      endOfRow: Row(
+        children: [
+          _SubmitButton(
+            sizeData: widget.sizeData,
+            color: Colors.amber,
+            icon: const Icon(Icons.cloud_upload),
+            onTap: () {
+              final validation = _validateGuess();
+              if (validation['valid']) {
+                _clearBoxes();
+                _focusNodes[0].requestFocus();
+                _controllers[0].value = TextEditingValue(
+                  text: _controllers[0].text,
+                  selection: _textSelection,
+                );
+                BlocProvider.of<GameBloc>(context)
+                    .add(SubmitGuess(guess: validation['guess']));
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Oops'),
+                      content: Text('These letters '
+                          '${validation['invalidLetters']} '
+                          'are not allowed'),
+                      actions: [
+                        FlatButton(
+                          child: Text('Ok!'),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+            },
           ),
-        ),
-        space,
-        Row(
-          children: [
-            _SubmitButton(
-              sizeData: widget.sizeData,
-              color: Colors.amber,
-              icon: const Icon(Icons.cloud_upload),
-              onTap: () {
-                final validation = _validateGuess();
-                if (validation['valid']) {
-                  _clearBoxes();
-                  _focusNodes[0].requestFocus();
-                  _controllers[0].value = TextEditingValue(
-                    text: _controllers[0].text,
-                    selection: _textSelection,
-                  );
-                  BlocProvider.of<GameBloc>(context)
-                      .add(SubmitGuess(guess: validation['guess']));
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Oops'),
-                        content: Text('These letters '
-                            '${validation['invalidLetters']} '
-                            'are not allowed'),
-                        actions: [
-                          FlatButton(
-                            child: Text('Ok!'),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-            _SubmitButton(
-              sizeData: widget.sizeData,
-              color: Colors.red,
-              icon: const Icon(Icons.cancel),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ],
+          _SubmitButton(
+            sizeData: widget.sizeData,
+            color: Colors.red,
+            icon: const Icon(Icons.cancel),
+            onTap: () {},
+          ),
+        ],
+      ),
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
 import 'package:letamind/screens/game/widgets/input_row.dart';
-import 'package:letamind/screens/game/widgets/letter_box.dart';
+import 'package:letamind/screens/game/widgets/letter_row.dart';
 
 class GameScreen extends StatefulWidget {
   GameScreen({Key key, this.title}) : super(key: key);
@@ -37,7 +37,6 @@ class _GameScreenState extends State<GameScreen> {
           final width = MediaQuery.of(context).size.width;
           final sizeData = SizeData.create(length: length, width: width);
 
-          const space = SizedBox(width: 10);
           return Scaffold(
             appBar: AppBar(
               title: const Text('Letamind'),
@@ -58,20 +57,12 @@ class _GameScreenState extends State<GameScreen> {
                         : Flexible(
                             child: ListView(
                               children: state.moves.reversed
-                                  .map((move) => Row(children: [
-                                        Row(
-                                          children: move.guess
-                                              .split('')
-                                              .map((letter) => LetterBox(
-                                                    letter: letter,
-                                                    color: Colors.lightGreen,
-                                                    sizeData: sizeData,
-                                                  ))
-                                              .toList(),
-                                        ),
-                                        space,
-                                        Text(move.score.toString())
-                                      ]))
+                                  .map((move) => LetterRow(
+                                        word: move.guess,
+                                        sizeData: sizeData,
+                                        endOfRowWidget:
+                                            Text(move.score.toString()),
+                                      ))
                                   .toList(),
                             ),
                           )

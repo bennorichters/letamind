@@ -5,9 +5,9 @@ import 'package:letamind/screens/game/widgets/letter_box.dart';
 
 class LetterRow extends StatelessWidget {
   const LetterRow({
-    this.word,
-    this.sizeData,
-    this.endOfRowWidget,
+    @required this.word,
+    @required this.sizeData,
+    @required this.endOfRowWidget,
   });
   final String word;
   final SizeData sizeData;

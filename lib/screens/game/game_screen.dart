@@ -50,6 +50,7 @@ class _GameScreenState extends State<GameScreen> {
                   children: [
                     InputRow(
                       length: state.wordLength,
+                      allowedLetters: state.allowedLetters,
                       sizeData: sizeData,
                     ),
                     state.moves.isEmpty

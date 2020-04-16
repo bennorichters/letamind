@@ -6,8 +6,13 @@ import 'package:letamind/screens/game/utils/size_data.dart';
 import 'letter_input_box.dart';
 
 class InputRow extends StatefulWidget {
-  const InputRow({@required this.length, @required this.sizeData});
+  const InputRow({
+    @required this.length,
+    @required this.allowedLetters,
+    @required this.sizeData,
+  });
   final int length;
+  final Set<String> allowedLetters;
   final SizeData sizeData;
 
   @override
@@ -90,15 +95,35 @@ class _InputRowState extends State<InputRow> {
               color: Colors.amber,
               icon: const Icon(Icons.cloud_upload),
               onTap: () {
-                final guess = _guessedWord(widget.length);
-                _clearBoxes();
-                _focusNodes[0].requestFocus();
-                _controllers[0].value = TextEditingValue(
-                  text: _controllers[0].text,
-                  selection: _textSelection,
-                );
-                BlocProvider.of<GameBloc>(context)
-                    .add(SubmitGuess(guess: guess));
+                final validation = _validateGuess();
+                if (validation['valid']) {
+                  _clearBoxes();
+                  _focusNodes[0].requestFocus();
+                  _controllers[0].value = TextEditingValue(
+                    text: _controllers[0].text,
+                    selection: _textSelection,
+                  );
+                  BlocProvider.of<GameBloc>(context)
+                      .add(SubmitGuess(guess: validation['guess']));
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: new Text('Oops'),
+                        content: new Text('The letters '
+                            '${validation['invalidLetters']}'
+                            ' are not allowed'),
+                        actions: [
+                          new FlatButton(
+                            child: new Text('Ok!'),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },
             ),
             _SubmitButton(
@@ -113,13 +138,23 @@ class _InputRowState extends State<InputRow> {
     );
   }
 
-  _guessedWord(int length) {
+  _validateGuess() {
     final result = StringBuffer();
-    for (var i = 0; i < length; i++) {
-      result.write(_controllers[i].text);
+
+    final invalidLetters = <String>[];
+    for (var i = 0; i < widget.length; i++) {
+      final letter = _controllers[i].text;
+
+      if (!widget.allowedLetters.contains(letter.toLowerCase())) {
+        invalidLetters.add(letter);
+      }
+
+      result.write(letter);
     }
 
-    return result.toString();
+    return invalidLetters.isEmpty
+        ? {'valid': true, 'guess': result.toString()}
+        : {'valid': false, 'invalidLetters': invalidLetters};
   }
 
   void _clearBoxes() => _controllers.forEach((c) => c.text = _emptyBoxChar);

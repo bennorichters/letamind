@@ -111,9 +111,9 @@ class _InputRowState extends State<InputRow> {
                     builder: (context) {
                       return AlertDialog(
                         title: Text('Oops'),
-                        content: Text('The letters '
-                            '${validation['invalidLetters']}'
-                            ' are not allowed'),
+                        content: Text('These letters '
+                            '${validation['invalidLetters']} '
+                            'are not allowed'),
                         actions: [
                           FlatButton(
                             child: Text('Ok!'),
@@ -138,7 +138,7 @@ class _InputRowState extends State<InputRow> {
     );
   }
 
-  _validateGuess() {
+  Map<String, dynamic> _validateGuess() {
     final result = StringBuffer();
 
     final invalidLetters = <String>[];

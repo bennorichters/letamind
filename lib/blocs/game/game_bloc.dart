@@ -54,6 +54,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         }
       }
 
+      _finished = (guess == _word);
+
       _moves.add(Move(guess: guess, score: score));
       yield _fromProps();
     }

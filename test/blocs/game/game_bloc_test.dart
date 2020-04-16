@@ -90,36 +90,13 @@ void main() {
           wordLength: 5,
           allowedLetters: {},
           moves: [Move(guess: 'ABCDE', score: 10)],
-          finished: false,
-        )
-      ],
-    );
-
-    blocTest(
-      'entered letters empty after submit',
-      build: () async => GameBloc(
-        settingsProvider: settingsProvider,
-        dictionaryProvider: dictionaryProvider,
-        wordProvider: wordProvider,
-      ),
-      act: (bloc) {
-        bloc.add(StartNewGame());
-        bloc.add(SubmitGuess(guess: 'aabbb'));
-        return;
-      },
-      skip: 2,
-      expect: [
-        PlayState(
-          wordLength: 5,
-          allowedLetters: {},
-          moves: [Move(guess: 'AABBB', score: 0)],
-          finished: false,
+          finished: true,
         )
       ],
     );
 
     @isTest
-    void scoreTest(String guess, int expectedScore) {
+    void scoreTest(String guess, int expectedScore, [bool finished = false]) {
       blocTest(
         'guess word $guess yields score of $expectedScore',
         build: () async => GameBloc(
@@ -138,19 +115,19 @@ void main() {
             wordLength: 5,
             allowedLetters: {},
             moves: [Move(guess: guess, score: expectedScore)],
-            finished: false,
+            finished: finished,
           )
         ],
       );
     }
 
+    scoreTest('12345', 10, true);
     scoreTest('11111', 2);
     scoreTest('22222', 2);
     scoreTest('00000', 0);
     scoreTest('01000', 1);
     scoreTest('31333', 3);
     scoreTest('32333', 4);
-    scoreTest('12345', 10);
     scoreTest('12341', 8);
     scoreTest('12340', 8);
     scoreTest('01234', 4);

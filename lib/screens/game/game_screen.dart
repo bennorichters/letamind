@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
+import 'package:letamind/screens/game/widgets/actions/action_row.dart';
 import 'package:letamind/screens/game/widgets/input/input_row.dart';
 import 'package:letamind/screens/game/widgets/move/letter_row.dart';
 import 'package:letamind/screens/game/widgets/move/move_row.dart';
@@ -53,7 +54,15 @@ class _GameScreenState extends State<GameScreen> {
                             word: state.moves.last.guess,
                             sizeData: sizeData,
                             color: Colors.purple,
-                            endOfRowWidget: Container(),
+                            endOfRowWidget: ActionRow(
+                              icon1: Icon(Icons.play_arrow),
+                              color1: Colors.blue,
+                              onTap1: () {},
+                              icon2: Icon(Icons.settings),
+                              color2: Colors.blue,
+                              onTap2: () {},
+                              sizeData: sizeData,
+                            ),
                           )
                         : InputRow(
                             length: state.wordLength,

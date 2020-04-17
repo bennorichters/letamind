@@ -91,6 +91,8 @@ class _InputRowState extends State<InputRow> {
       ),
       endOfRow: ActionRow(
         sizeData: widget.sizeData,
+        icon1: const Icon(Icons.cloud_upload),
+        color1: Colors.amber,
         onTap1: () {
           final validation = _validateGuess();
           if (validation['valid']) {
@@ -122,6 +124,8 @@ class _InputRowState extends State<InputRow> {
             );
           }
         },
+        icon2: const Icon(Icons.cancel),
+        color2: Colors.red,
         onTap2: () {},
       ),
     );

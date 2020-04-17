@@ -24,18 +24,29 @@ class MoveRow extends StatelessWidget {
       1 - index / length,
     );
 
-    return LetterRow(
-      word: move.guess,
-      sizeData: sizeData,
-      color: color,
-      endOfRowWidget: Container(
-        width: sizeData.size * 2 + sizeData.padding * 2,
-        height: sizeData.size,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+    return Padding(
+      padding: EdgeInsets.only(top: 5),
+      child: LetterRow(
+        word: move.guess,
+        sizeData: sizeData,
+        color: color,
+        endOfRowWidget: Container(
+          width: sizeData.size * 2 + sizeData.padding * 2,
+          height: sizeData.size,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 5.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('${(index + 1).toString()}. - ${move.score.toString()}'),
+              ],
+            ),
+          ),
         ),
-        child: Text(move.score.toString()),
       ),
     );
   }

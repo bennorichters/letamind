@@ -24,8 +24,9 @@ class LetterRow extends StatelessWidget {
           .map((i, letter) => MapEntry(
               i,
               Padding(
-                padding: EdgeInsets.fromLTRB(
-                    (i == 0 ? 0 : sizeData.padding * 2), 5, 0, 0),
+                padding: EdgeInsets.only(
+                  left: (i == 0 ? 0 : sizeData.padding * 2),
+                ),
                 child: LetterBox(
                   letter: letter,
                   color: color,

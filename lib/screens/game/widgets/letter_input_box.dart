@@ -16,37 +16,34 @@ class LetterInputBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(sizeData.padding),
+    return Container(
+      height: sizeData.size,
+      width: sizeData.size,
       child: Container(
-        height: sizeData.size,
-        width: sizeData.size,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            border: Border.all(
-              width: sizeData.border,
-              color: Colors.green,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(
+            width: sizeData.border,
+            color: Colors.green,
           ),
-          child: TextField(
-            autofocus: autofocus,
-            controller: controller,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(bottom: sizeData.cPadding),
-            ),
-            enableInteractiveSelection: false,
-            focusNode: focusNode,
-            inputFormatters: [LengthLimitingTextInputFormatter(1)],
-            onChanged: (_) => focusNode.nextFocus(),
-            style: TextStyle(
-              fontSize: sizeData.font,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
+          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        ),
+        child: TextField(
+          autofocus: autofocus,
+          controller: controller,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(bottom: sizeData.cPadding),
           ),
+          enableInteractiveSelection: false,
+          focusNode: focusNode,
+          inputFormatters: [LengthLimitingTextInputFormatter(1)],
+          onChanged: (_) => focusNode.nextFocus(),
+          style: TextStyle(
+            fontSize: sizeData.font,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
         ),
       ),
     );

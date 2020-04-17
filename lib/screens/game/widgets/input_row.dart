@@ -76,11 +76,16 @@ class _InputRowState extends State<InputRow> {
     return GameRow(
       children: List.generate(
         widget.length,
-        (i) => LetterInputBox(
-          sizeData: widget.sizeData,
-          autofocus: i == 0,
-          controller: _controllers[i],
-          focusNode: _focusNodes[i],
+        (i) => Padding(
+          padding: EdgeInsets.only(
+            left: (i == 0 ? 0 : widget.sizeData.padding * 2),
+          ),
+          child: LetterInputBox(
+            sizeData: widget.sizeData,
+            autofocus: i == 0,
+            controller: _controllers[i],
+            focusNode: _focusNodes[i],
+          ),
         ),
       ),
       endOfRow: Row(
@@ -121,6 +126,7 @@ class _InputRowState extends State<InputRow> {
               }
             },
           ),
+          SizedBox(width: widget.sizeData.padding * 2),
           _SubmitButton(
             sizeData: widget.sizeData,
             color: Colors.red,
@@ -168,19 +174,16 @@ class _SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(sizeData.padding),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: sizeData.size,
-          height: sizeData.size,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-          ),
-          child: Center(child: icon),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: sizeData.size,
+        height: sizeData.size,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         ),
+        child: Center(child: icon),
       ),
     );
   }

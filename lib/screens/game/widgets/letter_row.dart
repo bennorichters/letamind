@@ -20,11 +20,19 @@ class LetterRow extends StatelessWidget {
     return GameRow(
       children: word
           .split('')
-          .map((letter) => LetterBox(
-                letter: letter,
-                color: color,
-                sizeData: sizeData,
-              ))
+          .asMap()
+          .map((i, letter) => MapEntry(
+              i,
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    (i == 0 ? 0 : sizeData.padding * 2), 5, 0, 0),
+                child: LetterBox(
+                  letter: letter,
+                  color: color,
+                  sizeData: sizeData,
+                ),
+              )))
+          .values
           .toList(),
       endOfRow: endOfRowWidget,
     );

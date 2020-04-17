@@ -43,7 +43,7 @@ class _GameScreenState extends State<GameScreen> {
             ),
             body: Center(
               child: Padding(
-                padding: EdgeInsets.only(top: 15),
+                padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -60,7 +60,12 @@ class _GameScreenState extends State<GameScreen> {
                             sizeData: sizeData,
                           ),
                     state.moves.isEmpty
-                        ? Text('nothing')
+                        ? Flexible(
+                            child: Text(
+                              'Choose your letters in the row above and submit '
+                              'them to see the score you get.',
+                            ),
+                          )
                         : Flexible(
                             child: ListView(
                               children: state.moves.reversed

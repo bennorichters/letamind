@@ -21,7 +21,7 @@ class MoveRow extends StatelessWidget {
       Colors.green.red,
       Colors.green.green,
       Colors.green.blue,
-      1 - index / length,
+      (index + 1) / length,
     );
 
     return Padding(

@@ -88,7 +88,7 @@ class _GameScreenState extends State<GameScreen> {
                                   .map((i, move) => MapEntry(
                                         i,
                                         MoveRow(
-                                          index: i,
+                                          index: state.moves.length - i - 1,
                                           length: state.moves.length,
                                           sizeData: sizeData,
                                           move: move,

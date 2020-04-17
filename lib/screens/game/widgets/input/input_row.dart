@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
+import 'package:letamind/screens/game/widgets/actions/action_row.dart';
 import 'package:letamind/screens/game/widgets/game_row.dart';
 
 import 'letter_input_box.dart';
@@ -88,52 +89,40 @@ class _InputRowState extends State<InputRow> {
           ),
         ),
       ),
-      endOfRow: Row(
-        children: [
-          _SubmitButton(
-            sizeData: widget.sizeData,
-            color: Colors.amber,
-            icon: const Icon(Icons.cloud_upload),
-            onTap: () {
-              final validation = _validateGuess();
-              if (validation['valid']) {
-                _clearBoxes();
-                _focusNodes[0].requestFocus();
-                _controllers[0].value = TextEditingValue(
-                  text: _controllers[0].text,
-                  selection: _textSelection,
+      endOfRow: ActionRow(
+        sizeData: widget.sizeData,
+        onTap1: () {
+          final validation = _validateGuess();
+          if (validation['valid']) {
+            _clearBoxes();
+            _focusNodes[0].requestFocus();
+            _controllers[0].value = TextEditingValue(
+              text: _controllers[0].text,
+              selection: _textSelection,
+            );
+            BlocProvider.of<GameBloc>(context)
+                .add(SubmitGuess(guess: validation['guess']));
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Oops'),
+                  content: Text('These letters '
+                      '${validation['invalidLetters']} '
+                      'are not allowed'),
+                  actions: [
+                    FlatButton(
+                      child: Text('Ok!'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
                 );
-                BlocProvider.of<GameBloc>(context)
-                    .add(SubmitGuess(guess: validation['guess']));
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text('Oops'),
-                      content: Text('These letters '
-                          '${validation['invalidLetters']} '
-                          'are not allowed'),
-                      actions: [
-                        FlatButton(
-                          child: Text('Ok!'),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }
-            },
-          ),
-          SizedBox(width: widget.sizeData.padding * 2),
-          _SubmitButton(
-            sizeData: widget.sizeData,
-            color: Colors.red,
-            icon: const Icon(Icons.cancel),
-            onTap: () {},
-          ),
-        ],
+              },
+            );
+          }
+        },
+        onTap2: () {},
       ),
     );
   }
@@ -158,33 +147,4 @@ class _InputRowState extends State<InputRow> {
   }
 
   void _clearBoxes() => _controllers.forEach((c) => c.text = _emptyBoxChar);
-}
-
-class _SubmitButton extends StatelessWidget {
-  const _SubmitButton({
-    @required this.sizeData,
-    @required this.color,
-    @required this.icon,
-    @required this.onTap,
-  });
-  final SizeData sizeData;
-  final Color color;
-  final Icon icon;
-  final GestureTapCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: sizeData.size,
-        height: sizeData.size,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-        ),
-        child: Center(child: icon),
-      ),
-    );
-  }
 }

@@ -57,7 +57,8 @@ class _GameScreenState extends State<GameScreen> {
                             endOfRowWidget: ActionRow(
                               icon1: Icon(Icons.play_arrow),
                               color1: Colors.blue,
-                              onTap1: () {},
+                              onTap1: () => BlocProvider.of<GameBloc>(context)
+                                  .add(const StartNewGame()),
                               icon2: Icon(Icons.settings),
                               color2: Colors.blue,
                               onTap2: () {},
@@ -77,7 +78,8 @@ class _GameScreenState extends State<GameScreen> {
                                 decoration: BoxDecoration(
                                   color: Colors.lightGreen,
                                   borderRadius: const BorderRadius.all(
-                                      Radius.circular(5.0)),
+                                    Radius.circular(5.0),
+                                  ),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(5.0),

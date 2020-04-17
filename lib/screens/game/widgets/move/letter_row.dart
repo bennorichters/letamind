@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
 import 'package:letamind/screens/game/widgets/game_row.dart';
-import 'package:letamind/screens/game/widgets/letter_box.dart';
+import 'package:letamind/screens/game/widgets/move/letter_box.dart';
 
 class LetterRow extends StatelessWidget {
   const LetterRow({

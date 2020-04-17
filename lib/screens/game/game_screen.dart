@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
-import 'package:letamind/screens/game/widgets/input_row.dart';
-import 'package:letamind/screens/game/widgets/letter_row.dart';
+import 'package:letamind/screens/game/widgets/input/input_row.dart';
+import 'package:letamind/screens/game/widgets/move/letter_row.dart';
+import 'package:letamind/screens/game/widgets/move/move_row.dart';
 
 class GameScreen extends StatefulWidget {
   GameScreen({Key key, this.title}) : super(key: key);
@@ -61,9 +62,22 @@ class _GameScreenState extends State<GameScreen> {
                           ),
                     state.moves.isEmpty
                         ? Flexible(
-                            child: Text(
-                              'Choose your letters in the row above and submit '
-                              'them to see the score you get.',
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.lightGreen,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5.0)),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    'Choose your letters in the row above and submit '
+                                    'them to see the score you get.',
+                                  ),
+                                ),
+                              ),
                             ),
                           )
                         : Flexible(
@@ -73,17 +87,11 @@ class _GameScreenState extends State<GameScreen> {
                                   .asMap()
                                   .map((i, move) => MapEntry(
                                         i,
-                                        LetterRow(
-                                          word: move.guess,
+                                        MoveRow(
+                                          index: i,
+                                          length: state.moves.length,
                                           sizeData: sizeData,
-                                          color: Color.fromRGBO(
-                                            Colors.green.red,
-                                            Colors.green.green,
-                                            Colors.green.blue,
-                                            1 - i / state.moves.length,
-                                          ),
-                                          endOfRowWidget:
-                                              Text(move.score.toString()),
+                                          move: move,
                                         ),
                                       ))
                                   .values

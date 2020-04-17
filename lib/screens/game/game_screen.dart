@@ -82,8 +82,8 @@ class _GameScreenState extends State<GameScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Text(
-                                    'Choose your letters in the row above and submit '
-                                    'them to see the score you get.',
+                                    'Choose your letters in the row above and '
+                                    'submit  them to see the score you get.',
                                   ),
                                 ),
                               ),

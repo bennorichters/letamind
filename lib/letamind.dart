@@ -6,6 +6,7 @@ import 'package:letamind/data/settings.dart';
 import 'package:letamind/data/word_provider.dart';
 import 'package:letamind/screens/game/game_screen.dart';
 import 'package:letamind/screens/settings/settings_screen.dart';
+import 'package:letamind/utils/text.dart';
 
 import 'blocs/game/game_bloc.dart';
 
@@ -14,10 +15,12 @@ class LetamindApp extends StatefulWidget {
     @required this.settingsProvider,
     @required this.dictionaryProvider,
     @required this.wordProvider,
+    @required this.textProvider,
   });
   final SettingsProvider settingsProvider;
   final DictionaryProvider dictionaryProvider;
   final WordProvider wordProvider;
+  final TextProvider textProvider;
 
   @override
   State<StatefulWidget> createState() => LetamindState();
@@ -26,31 +29,40 @@ class LetamindApp extends StatefulWidget {
 class LetamindState extends State<LetamindApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<SettingsBloc>(
-          create: (BuildContext context) =>
-              SettingsBloc(widget.settingsProvider),
-        ),
-        BlocProvider<GameBloc>(
-          create: (BuildContext context) => GameBloc(
-            settingsProvider: widget.settingsProvider,
-            dictionaryProvider: widget.dictionaryProvider,
-            wordProvider: widget.wordProvider,
-          ),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Letamind',
-        routes: {
-          'settings': (context) => SettingsScreen(),
-          'game': (context) => GameScreen(),
-        },
-        initialRoute: 'settings',
-        theme: ThemeData(
-          primarySwatch: Colors.purple 
-        ),
-      ),
+    return FutureBuilder(
+      future: widget.textProvider.provide(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          TranslationExtenion.texts = snapshot.data;
+
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<SettingsBloc>(
+                create: (BuildContext context) =>
+                    SettingsBloc(widget.settingsProvider),
+              ),
+              BlocProvider<GameBloc>(
+                create: (BuildContext context) => GameBloc(
+                  settingsProvider: widget.settingsProvider,
+                  dictionaryProvider: widget.dictionaryProvider,
+                  wordProvider: widget.wordProvider,
+                ),
+              ),
+            ],
+            child: MaterialApp(
+              title: 'Letamind',
+              routes: {
+                'settings': (context) => SettingsScreen(),
+                'game': (context) => GameScreen(),
+              },
+              initialRoute: 'settings',
+              theme: ThemeData(primarySwatch: Colors.purple),
+            ),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }

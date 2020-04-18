@@ -39,6 +39,8 @@ class _GameScreenState extends State<GameScreen> {
           final width = MediaQuery.of(context).size.width;
           final sizeData = SizeData.create(length: length, width: width);
 
+          final message = _message(state);
+
           return Scaffold(
             appBar: AppBar(
               title: const Text('Letamind'),
@@ -70,45 +72,42 @@ class _GameScreenState extends State<GameScreen> {
                               sizeData: sizeData,
                             ),
                           ),
-                    state.moves.isEmpty
-                        ? Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 5.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.lightGreen,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(5.0),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text(
-                                    'Choose your letters in the row above and '
-                                    'submit  them to see the score you get.',
-                                  ),
-                                ),
+                    if (message != null)
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.lightGreen,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(5.0),
                               ),
                             ),
-                          )
-                        : Flexible(
-                            child: ListView(
-                              children: state.moves.reversed
-                                  .toList()
-                                  .asMap()
-                                  .map((i, move) => MapEntry(
-                                        i,
-                                        MoveRow(
-                                          index: state.moves.length - i - 1,
-                                          length: state.moves.length,
-                                          sizeData: sizeData,
-                                          move: move,
-                                        ),
-                                      ))
-                                  .values
-                                  .toList(),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(message),
                             ),
-                          )
+                          ),
+                        ),
+                      ),
+                    Flexible(
+                      child: ListView(
+                        children: state.moves.reversed
+                            .toList()
+                            .asMap()
+                            .map((i, move) => MapEntry(
+                                  i,
+                                  MoveRow(
+                                    index: state.moves.length - i - 1,
+                                    length: state.moves.length,
+                                    sizeData: sizeData,
+                                    move: move,
+                                  ),
+                                ))
+                            .values
+                            .toList(),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -119,5 +118,26 @@ class _GameScreenState extends State<GameScreen> {
         return const Center(child: CircularProgressIndicator());
       }),
     );
+  }
+
+  _message(PlayState state) {
+    if (state.status == GameStatus.ongoing && state.moves.isEmpty) {
+      return 'Choose your letters in the row above and '
+          'submit  them to see the score you get.';
+    }
+
+    if (state.status == GameStatus.solved ||
+        state.status == GameStatus.resigned) {
+      var message = '';
+      if (state.status == GameStatus.solved) {
+        message = 'Congratulations! You found the solution. \n\n' + message;
+      }
+
+      return message +
+          'Play again by pressing the play button or change the '
+              'settings by pressing the seetings button';
+    }
+
+    return null;
   }
 }

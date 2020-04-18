@@ -79,15 +79,15 @@ const _data = {
   },
 };
 
-const _minWidth = 360.0;
-const _maxWidth = 414.0;
+const _minScreenWidth = 360.0;
+const _maxScreenWidth = 414.0;
 
 double _size(String property, int length, double width) {
-  final min = _data[_minWidth][length][property];
-  final max = _data[_maxWidth][length][property];
+  final min = _data[_minScreenWidth][length][property];
+  final max = _data[_maxScreenWidth][length][property];
   final widthInterpolator = _Interpolator.fromDataPoints(
-    p1: Math.Point(_minWidth, min),
-    p2: Math.Point(_maxWidth, max),
+    p1: Math.Point(_minScreenWidth, min),
+    p2: Math.Point(_maxScreenWidth, max),
     min: min,
     max: max,
   );
@@ -121,6 +121,8 @@ class SizeData {
   final double size;
   final double font;
   final double cPadding;
+
+  static const double maxScreenWidth = _maxScreenWidth;
 }
 
 /// Calculator that finds y for a given value x based on two linear data points.

@@ -1,3 +1,5 @@
+import 'dart:math' show min;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letamind/blocs/game/game_bloc.dart';
@@ -30,9 +32,13 @@ class _GameScreenState extends State<GameScreen> {
       GameState state,
     ) {
       if (state is PlayState) {
+        final width = min(
+          SizeData.maxScreenWidth,
+          MediaQuery.of(context).size.width,
+        );
         final sizeData = SizeData.create(
           length: state.wordLength,
-          width: MediaQuery.of(context).size.width,
+          width: width,
         );
 
         final message = _message(state);
@@ -44,72 +50,75 @@ class _GameScreenState extends State<GameScreen> {
           body: Center(
             child: Padding(
               padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  state.status == GameStatus.ongoing
-                      ? InputRow(
-                          length: state.wordLength,
-                          allowedLetters: state.allowedLetters,
-                          sizeData: sizeData,
-                        )
-                      : LetterRow(
-                          word: state.solution,
-                          sizeData: sizeData,
-                          backgroundColor: Colors.purple,
-                          color: Colors.white,
-                          endOfRowWidget: ActionRow(
-                            icon1: Icon(Icons.play_arrow),
-                            color1: Colors.blue,
-                            onTap1: () => BlocProvider.of<GameBloc>(context)
-                                .add(const StartNewGame()),
-                            icon2: Icon(Icons.settings),
-                            color2: Colors.blue,
-                            onTap2: () => Navigator.pushReplacementNamed(
-                                context, 'settings'),
+              child: Container(
+                width: width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    state.status == GameStatus.ongoing
+                        ? InputRow(
+                            length: state.wordLength,
+                            allowedLetters: state.allowedLetters,
                             sizeData: sizeData,
-                          ),
-                        ),
-                  if (message != null)
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.purple,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(5.0),
+                          )
+                        : LetterRow(
+                            word: state.solution,
+                            sizeData: sizeData,
+                            backgroundColor: Colors.purple,
+                            color: Colors.white,
+                            endOfRowWidget: ActionRow(
+                              icon1: Icon(Icons.play_arrow),
+                              color1: Colors.blue,
+                              onTap1: () => BlocProvider.of<GameBloc>(context)
+                                  .add(const StartNewGame()),
+                              icon2: Icon(Icons.settings),
+                              color2: Colors.blue,
+                              onTap2: () => Navigator.pushReplacementNamed(
+                                  context, 'settings'),
+                              sizeData: sizeData,
                             ),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              message,
-                              style: TextStyle(color: Colors.white),
+                    if (message != null)
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.purple,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(5.0),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                message,
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  Flexible(
-                    child: ListView(
-                      children: state.moves.reversed
-                          .toList()
-                          .asMap()
-                          .map((i, move) => MapEntry(
-                                i,
-                                MoveRow(
-                                  index: state.moves.length - i - 1,
-                                  length: state.moves.length,
-                                  sizeData: sizeData,
-                                  move: move,
-                                ),
-                              ))
-                          .values
-                          .toList(),
-                    ),
-                  )
-                ],
+                    Flexible(
+                      child: ListView(
+                        children: state.moves.reversed
+                            .toList()
+                            .asMap()
+                            .map((i, move) => MapEntry(
+                                  i,
+                                  MoveRow(
+                                    index: state.moves.length - i - 1,
+                                    length: state.moves.length,
+                                    sizeData: sizeData,
+                                    move: move,
+                                  ),
+                                ))
+                            .values
+                            .toList(),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

@@ -135,7 +135,7 @@ class _GameScreenState extends State<GameScreen> {
 
       return message +
           'Play again by pressing the play button or change the '
-              'settings by pressing the seetings button';
+              'settings by pressing the seetings button.';
     }
 
     return null;

@@ -24,7 +24,7 @@ class LetterInputBox extends StatelessWidget {
           color: Colors.transparent,
           border: Border.all(
             width: sizeData.border,
-            color: Colors.green,
+            color: Colors.purple,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(5.0)),
         ),

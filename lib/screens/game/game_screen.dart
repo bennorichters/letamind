@@ -55,7 +55,8 @@ class _GameScreenState extends State<GameScreen> {
                       : LetterRow(
                           word: state.solution,
                           sizeData: sizeData,
-                          color: Colors.purple,
+                          backgroundColor: Colors.purple,
+                          color: Colors.white,
                           endOfRowWidget: ActionRow(
                             icon1: Icon(Icons.play_arrow),
                             color1: Colors.blue,
@@ -74,14 +75,17 @@ class _GameScreenState extends State<GameScreen> {
                         padding: const EdgeInsets.only(top: 5.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.lightGreen,
+                            color: Colors.purple,
                             borderRadius: const BorderRadius.all(
                               Radius.circular(5.0),
                             ),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
-                            child: Text(message),
+                            child: Text(
+                              message,
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       ),

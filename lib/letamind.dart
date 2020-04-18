@@ -47,6 +47,9 @@ class LetamindState extends State<LetamindApp> {
           'game': (context) => GameScreen(),
         },
         initialRoute: 'settings',
+        theme: ThemeData(
+          primarySwatch: Colors.purple 
+        ),
       ),
     );
   }

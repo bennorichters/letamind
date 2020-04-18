@@ -7,13 +7,15 @@ class LetterRow extends StatelessWidget {
   const LetterRow({
     @required this.word,
     @required this.sizeData,
-    @required this.color,
+    @required this.backgroundColor,
     @required this.endOfRowWidget,
+    this.color = Colors.black,
   });
   final String word;
   final SizeData sizeData;
-  final Color color;
+  final Color backgroundColor;
   final Widget endOfRowWidget;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,9 @@ class LetterRow extends StatelessWidget {
                 ),
                 child: LetterBox(
                   letter: letter,
-                  color: color,
+                  backgroundColor: backgroundColor,
                   sizeData: sizeData,
+                  color: color,
                 ),
               )))
           .values

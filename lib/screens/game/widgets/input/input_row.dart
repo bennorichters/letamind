@@ -92,7 +92,7 @@ class _InputRowState extends State<InputRow> {
       endOfRow: ActionRow(
         sizeData: widget.sizeData,
         icon1: const Icon(Icons.cloud_upload),
-        color1: Colors.amber,
+        color1: Colors.lightGreen,
         onTap1: () {
           final validation = _validateGuess();
           if (validation['valid']) {
@@ -110,9 +110,17 @@ class _InputRowState extends State<InputRow> {
               builder: (context) {
                 return AlertDialog(
                   title: Text('Oops'),
-                  content: Text('These letters '
-                      '${validation['invalidLetters']} '
-                      'are not allowed'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('These characters are not allowed:'),
+                      Text(
+                        validation['invalidLetters'].join(', '),
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
                   actions: [
                     FlatButton(
                       child: Text('Ok!'),
@@ -173,7 +181,7 @@ class _InputRowState extends State<InputRow> {
 
     return invalidLetters.isEmpty
         ? {'valid': true, 'guess': result.toString()}
-        : {'valid': false, 'invalidLetters': invalidLetters};
+        : {'valid': false, 'invalidLetters': invalidLetters.toSet()};
   }
 
   void _clearBoxes() => _controllers.forEach((c) => c.text = _emptyBoxChar);

@@ -18,10 +18,10 @@ class MoveRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Color.fromRGBO(
-      Colors.green.red,
-      Colors.green.green,
-      Colors.green.blue,
-      (index + 1) / length,
+      Colors.purple.red,
+      Colors.purple.green,
+      Colors.purple.blue,
+      (index + 2) / (length + 8),
     );
 
     return Padding(
@@ -29,7 +29,7 @@ class MoveRow extends StatelessWidget {
       child: LetterRow(
         word: move.guess,
         sizeData: sizeData,
-        color: color,
+        backgroundColor: color,
         endOfRowWidget: Container(
           width: sizeData.size * 2 + sizeData.padding * 2,
           height: sizeData.size,
@@ -38,11 +38,17 @@ class MoveRow extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(left: 5.0),
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${(index + 1).toString()}. - ${move.score.toString()}'),
+                Text('${(index + 1).toString()}.'),
+                SizedBox(width: 10),
+                Text(
+                  move.score.toString(),
+                  style: TextStyle(fontSize: 20),
+                )
               ],
             ),
           ),

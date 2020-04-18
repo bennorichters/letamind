@@ -40,52 +40,79 @@ class _SettingsScreenState extends State<SettingsScreen> {
           appBar: AppBar(
             title: Text('settings'.tr),
           ),
-          body: Center(
-            child: Table(
-              children: [
-                TableRow(
-                  children: [
-                    Column(
-                      children: [
-                        Text('Taal'),
-                        Text('Language'),
-                        Text('Nyelv'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        _createTableFlag(
-                          context,
-                          state.settings.language,
-                          Language.Dutch,
-                        ),
-                        _createTableFlag(
-                          context,
-                          state.settings.language,
-                          Language.English,
-                        ),
-                        _createTableFlag(
-                          context,
-                          state.settings.language,
-                          Language.Hungarian,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text('word_length'.tr + ' (${state.settings.wordLength})'),
-                    WordLengthSelector(
-                      value: state.settings.wordLength,
-                      onChangeEnd: (double value) =>
-                          BlocProvider.of<SettingsBloc>(context).add(
-                        SettingsUpdated(wordLength: value.floor()),
+          body: Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Center(
+              child: Table(
+                columnWidths: {
+                  0: FixedColumnWidth(120),
+                  1: FixedColumnWidth(200)
+                },
+                children: [
+                  TableRow(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Taal'),
+                          const Text('Language'),
+                          const Text('Nyelv'),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                                              child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _createTableFlag(
+                                context,
+                                state.settings.language,
+                                Language.Dutch,
+                              ),
+                              _createTableFlag(
+                                context,
+                                state.settings.language,
+                                Language.English,
+                              ),
+                              _createTableFlag(
+                                context,
+                                state.settings.language,
+                                Language.Hungarian,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  TableRow(children: [SizedBox(height: 20), Container()]),
+                  TableRow(
+                    children: [
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text('word_length'.tr +
+                                ' (${state.settings.wordLength})'),
+                          ],
+                        ),
+                      ),
+                      WordLengthSelector(
+                        value: state.settings.wordLength,
+                        onChangeEnd: (double value) =>
+                            BlocProvider.of<SettingsBloc>(context).add(
+                          SettingsUpdated(wordLength: value.floor()),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           floatingActionButton: FloatingActionButton(

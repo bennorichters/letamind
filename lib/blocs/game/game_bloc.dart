@@ -22,7 +22,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   String _word;
   Set<String> _allowedLetters;
   List<Move> _moves = [];
-  bool _finished = false;
+  GameStatus _status;
 
   @override
   GameState get initialState => InitialGameState();
@@ -35,9 +35,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       wordProvider.dictionary = dict;
       _allowedLetters = dict.allowedLetters;
       _word = wordProvider.random(settings.wordLength).toUpperCase();
-      print('Word to guess: $_word');
       _moves = [];
-      _finished = false;
+      _status = GameStatus.ongoing;
 
       yield _fromProps();
     } else if (event is SubmitGuess) {
@@ -54,18 +53,23 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         }
       }
 
-      _finished = (guess == _word);
+      if (guess == _word) {
+        _status = GameStatus.solved;
+      }
 
       _moves.add(Move(guess: guess, score: score));
+      yield _fromProps();
+    } else if (event is ResignGame) {
+      _status = GameStatus.resigned;
       yield _fromProps();
     }
   }
 
   PlayState _fromProps() => PlayState(
-        wordLength: _word.length,
+        solution: _word,
         allowedLetters: _allowedLetters,
         moves: [..._moves],
-        finished: _finished,
+        status: _status,
       );
 }
 
@@ -80,3 +84,5 @@ class Move extends Equatable {
   @override
   bool get stringify => true;
 }
+
+enum GameStatus { ongoing, solved, resigned }

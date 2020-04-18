@@ -35,7 +35,7 @@ class _GameScreenState extends State<GameScreen> {
         GameState state,
       ) {
         if (state is PlayState) {
-          final length = state.wordLength;
+          final length = state.solution.length;
           final width = MediaQuery.of(context).size.width;
           final sizeData = SizeData.create(length: length, width: width);
 
@@ -49,9 +49,14 @@ class _GameScreenState extends State<GameScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    state.finished
-                        ? LetterRow(
-                            word: state.moves.last.guess,
+                    state.status == GameStatus.ongoing
+                        ? InputRow(
+                            length: length,
+                            allowedLetters: state.allowedLetters,
+                            sizeData: sizeData,
+                          )
+                        : LetterRow(
+                            word: state.solution,
                             sizeData: sizeData,
                             color: Colors.purple,
                             endOfRowWidget: ActionRow(
@@ -64,11 +69,6 @@ class _GameScreenState extends State<GameScreen> {
                               onTap2: () {},
                               sizeData: sizeData,
                             ),
-                          )
-                        : InputRow(
-                            length: state.wordLength,
-                            allowedLetters: state.allowedLetters,
-                            sizeData: sizeData,
                           ),
                     state.moves.isEmpty
                         ? Flexible(

@@ -21,3 +21,7 @@ class SubmitGuess extends GameEvent {
   @override
   List<Object> get props => [guess];
 }
+
+class ResignGame extends GameEvent {
+  const ResignGame();
+}

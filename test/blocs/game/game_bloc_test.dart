@@ -15,7 +15,7 @@ class MockDictionaryProvider extends Mock implements DictionaryProvider {}
 void main() {
   group('game bloc', () {
     SettingsProvider settingsProvider;
-    DictionaryProvider dictionaryProvider;
+    DictionaryProvider numberDictionaryProvider;
     DictionaryProvider letterDictionaryProvider;
     WordProvider wordProvider = WordProvider();
 
@@ -26,8 +26,8 @@ void main() {
       when(settingsProvider.provide())
           .thenAnswer((_) => Future.value(testSettings));
 
-      dictionaryProvider = MockDictionaryProvider();
-      when(dictionaryProvider.provide(any))
+      numberDictionaryProvider = MockDictionaryProvider();
+      when(numberDictionaryProvider.provide(any))
           .thenAnswer((_) => Future.value(Dictionary(
                 language: Language.Dutch,
                 allowedLetters: {},
@@ -47,7 +47,7 @@ void main() {
       'inital state',
       build: () async => GameBloc(
         settingsProvider: settingsProvider,
-        dictionaryProvider: dictionaryProvider,
+        dictionaryProvider: numberDictionaryProvider,
         wordProvider: wordProvider,
       ),
       skip: 0,
@@ -58,16 +58,16 @@ void main() {
       'start game',
       build: () async => GameBloc(
         settingsProvider: settingsProvider,
-        dictionaryProvider: dictionaryProvider,
+        dictionaryProvider: numberDictionaryProvider,
         wordProvider: wordProvider,
       ),
       act: (bloc) => bloc.add(StartNewGame()),
       expect: [
         PlayState(
-          wordLength: 5,
+          solution: '12345',
           allowedLetters: {},
           moves: [],
-          finished: false,
+          status: GameStatus.ongoing,
         )
       ],
     );
@@ -87,21 +87,44 @@ void main() {
       skip: 2,
       expect: [
         PlayState(
-          wordLength: 5,
+          solution: 'ABCDE',
           allowedLetters: {},
           moves: [Move(guess: 'ABCDE', score: 10)],
-          finished: true,
+          status: GameStatus.solved,
+        )
+      ],
+    );
+
+    blocTest(
+      'resign game',
+      build: () async => GameBloc(
+        settingsProvider: settingsProvider,
+        dictionaryProvider: numberDictionaryProvider,
+        wordProvider: wordProvider,
+      ),
+      act: (bloc) {
+        bloc.add(StartNewGame());
+        bloc.add(ResignGame());
+        return;
+      },
+      skip: 2,
+      expect: [
+        PlayState(
+          solution: '12345',
+          allowedLetters: {},
+          moves: [],
+          status: GameStatus.resigned,
         )
       ],
     );
 
     @isTest
-    void scoreTest(String guess, int expectedScore, [bool finished = false]) {
+    void scoreTest(String guess, int expectedScore, [bool solved = false]) {
       blocTest(
         'guess word $guess yields score of $expectedScore',
         build: () async => GameBloc(
           settingsProvider: settingsProvider,
-          dictionaryProvider: dictionaryProvider,
+          dictionaryProvider: numberDictionaryProvider,
           wordProvider: wordProvider,
         ),
         act: (bloc) {
@@ -112,10 +135,10 @@ void main() {
         skip: 2,
         expect: [
           PlayState(
-            wordLength: 5,
+            solution: '12345',
             allowedLetters: {},
             moves: [Move(guess: guess, score: expectedScore)],
-            finished: finished,
+            status: solved ? GameStatus.solved : GameStatus.ongoing,
           )
         ],
       );

@@ -126,7 +126,33 @@ class _InputRowState extends State<InputRow> {
         },
         icon2: const Icon(Icons.cancel),
         color2: Colors.red,
-        onTap2: () {},
+        onTap2: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Resign'),
+                content: Text(
+                  'Do you really want to give up?',
+                ),
+                actions: [
+                  FlatButton(
+                    child: Text('Yes!'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      BlocProvider.of<GameBloc>(context)
+                          .add(const ResignGame());
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('No, I want to play on'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }

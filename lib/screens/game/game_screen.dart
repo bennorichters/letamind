@@ -74,7 +74,9 @@ class _GameScreenState extends State<GameScreen> {
                               icon2: Icon(Icons.settings),
                               color2: Colors.blue,
                               onTap2: () => Navigator.pushReplacementNamed(
-                                  context, 'settings'),
+                                context,
+                                'settings',
+                              ),
                               sizeData: sizeData,
                             ),
                           ),
@@ -83,6 +85,7 @@ class _GameScreenState extends State<GameScreen> {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 5.0),
                           child: Container(
+                            width: width,
                             decoration: BoxDecoration(
                               color: Colors.purple,
                               borderRadius: const BorderRadius.all(
@@ -131,14 +134,14 @@ class _GameScreenState extends State<GameScreen> {
 
   _message(PlayState state) {
     if (state.status == GameStatus.ongoing && state.moves.isEmpty) {
-      return 'intro'.tr;
+      return 'intro'.tr + '\n\n' + 'rules'.tr;
     }
 
     if (state.status == GameStatus.solved ||
         state.status == GameStatus.resigned) {
       var message = '';
       if (state.status == GameStatus.solved) {
-        message = 'solved'.tr + '\n\n' + message;
+        message = 'solved'.tr + '\n\n';
       }
 
       return message + 'play_again'.tr;

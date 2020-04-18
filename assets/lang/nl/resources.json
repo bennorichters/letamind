@@ -1,4 +1,14 @@
 {
+  "input_error": "Oeps!",
+  "intro": "Vul de letters van jouw keuze hierboven in en druk op de groene knop om te zien hoeveel punten dat oplevert.",
+  "invalid_chars_msg": "Deze tekens zijn niet toegesteen:",
+  "no_play_on": "Nee, ik wil verder spelen",
+  "ok": "Ok!",
+  "play_again": "Speel nog een keer door op de 'Speel'-knop te drukken. Ga terug naar het instellingen scherm d.m.v. de knop met het tandwieltje.",
+  "resign": "Opgeven",
+  "resign_question": "Wil je het echt opgeven?",
   "settings": "Instellingen",
-  "word_length": "Woordlengte"
+  "solved": "Gefeliciteerd! Je hebt de oplossing gevonden.",
+  "word_length": "Woordlengte",
+  "yes": "Ja!"
 }

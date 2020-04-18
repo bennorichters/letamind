@@ -4,6 +4,7 @@ import 'package:letamind/blocs/game/game_bloc.dart';
 import 'package:letamind/screens/game/utils/size_data.dart';
 import 'package:letamind/screens/game/widgets/actions/action_row.dart';
 import 'package:letamind/screens/game/widgets/game_row.dart';
+import 'package:letamind/utils/text.dart';
 
 import 'letter_input_box.dart';
 
@@ -109,12 +110,12 @@ class _InputRowState extends State<InputRow> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('Oops'),
+                  title: Text('input_error'.tr),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('These characters are not allowed:'),
+                      Text('invalid_chars_msg'.tr),
                       Text(
                         validation['invalidLetters'].join(', '),
                         style: TextStyle(fontSize: 20),
@@ -123,7 +124,7 @@ class _InputRowState extends State<InputRow> {
                   ),
                   actions: [
                     FlatButton(
-                      child: Text('Ok!'),
+                      child: Text('ok'.tr),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ],
@@ -139,13 +140,11 @@ class _InputRowState extends State<InputRow> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('Resign'),
-                content: Text(
-                  'Do you really want to give up?',
-                ),
+                title: Text('resign'.tr),
+                content: Text('resign_question'.tr),
                 actions: [
                   FlatButton(
-                    child: Text('Yes!'),
+                    child: Text('yes'.tr),
                     onPressed: () {
                       Navigator.of(context).pop();
                       BlocProvider.of<GameBloc>(context)
@@ -153,7 +152,7 @@ class _InputRowState extends State<InputRow> {
                     },
                   ),
                   FlatButton(
-                    child: Text('No, I want to play on'),
+                    child: Text('no_play_on'.tr),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],

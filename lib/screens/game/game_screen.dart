@@ -6,6 +6,7 @@ import 'package:letamind/screens/game/widgets/actions/action_row.dart';
 import 'package:letamind/screens/game/widgets/input/input_row.dart';
 import 'package:letamind/screens/game/widgets/move/letter_row.dart';
 import 'package:letamind/screens/game/widgets/move/move_row.dart';
+import 'package:letamind/utils/text.dart';
 
 class GameScreen extends StatefulWidget {
   GameScreen({Key key, this.title}) : super(key: key);
@@ -121,20 +122,17 @@ class _GameScreenState extends State<GameScreen> {
 
   _message(PlayState state) {
     if (state.status == GameStatus.ongoing && state.moves.isEmpty) {
-      return 'Choose your letters in the row above and '
-          'submit  them to see the score you get.';
+      return 'intro'.tr;
     }
 
     if (state.status == GameStatus.solved ||
         state.status == GameStatus.resigned) {
       var message = '';
       if (state.status == GameStatus.solved) {
-        message = 'Congratulations! You found the solution. \n\n' + message;
+        message = 'solved'.tr + '\n\n' + message;
       }
 
-      return message +
-          'Play again by pressing the play button or change the '
-              'settings by pressing the seetings button.';
+      return message + 'play_again'.tr;
     }
 
     return null;

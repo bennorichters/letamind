@@ -1,1 +1,12 @@
-{}
+{
+  "input_error": "Oops!",
+  "intro": "Choose your letters in the row above and submit them to see the score you get.",
+  "invalid_chars_msg": "These characters are not allowed:",
+  "no_play_on": "No, I want to play on",
+  "ok": "Ok!",
+  "play_again": "Play again by pressing the play button. Change the settings by pressing the settings button.",
+  "resign": "Resign",
+  "resign_question": "Do you really want to resign?",
+  "solved": "Congratulations! You found the solution.",
+  "yes": "Yes!"
+}

@@ -24,100 +24,95 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GameBloc, GameState>(
-      listener: (BuildContext context, GameState state) {
-        // if (state is SettingsSaved) {
-        //   Navigator.pushReplacementNamed(context, 'settings');
-        // }
-      },
-      child: BlocBuilder<GameBloc, GameState>(builder: (
-        BuildContext context,
-        GameState state,
-      ) {
-        if (state is PlayState) {
-          final length = state.solution.length;
-          final width = MediaQuery.of(context).size.width;
-          final sizeData = SizeData.create(length: length, width: width);
+    return BlocBuilder<GameBloc, GameState>(builder: (
+      BuildContext context,
+      GameState state,
+    ) {
+      if (state is PlayState) {
+        final sizeData = SizeData.create(
+          length: state.wordLength,
+          width: MediaQuery.of(context).size.width,
+        );
 
-          final message = _message(state);
+        final message = _message(state);
 
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Letamind'),
-            ),
-            body: Center(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    state.status == GameStatus.ongoing
-                        ? InputRow(
-                            length: length,
-                            allowedLetters: state.allowedLetters,
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Letamind'),
+          ),
+          body: Center(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  state.status == GameStatus.ongoing
+                      ? InputRow(
+                          length: state.wordLength,
+                          allowedLetters: state.allowedLetters,
+                          sizeData: sizeData,
+                        )
+                      : LetterRow(
+                          word: state.solution,
+                          sizeData: sizeData,
+                          color: Colors.purple,
+                          endOfRowWidget: ActionRow(
+                            icon1: Icon(Icons.play_arrow),
+                            color1: Colors.blue,
+                            onTap1: () => BlocProvider.of<GameBloc>(context)
+                                .add(const StartNewGame()),
+                            icon2: Icon(Icons.settings),
+                            color2: Colors.blue,
+                            onTap2: () => Navigator.pushReplacementNamed(
+                                context, 'settings'),
                             sizeData: sizeData,
-                          )
-                        : LetterRow(
-                            word: state.solution,
-                            sizeData: sizeData,
-                            color: Colors.purple,
-                            endOfRowWidget: ActionRow(
-                              icon1: Icon(Icons.play_arrow),
-                              color1: Colors.blue,
-                              onTap1: () => BlocProvider.of<GameBloc>(context)
-                                  .add(const StartNewGame()),
-                              icon2: Icon(Icons.settings),
-                              color2: Colors.blue,
-                              onTap2: () {},
-                              sizeData: sizeData,
+                          ),
+                        ),
+                  if (message != null)
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.lightGreen,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(5.0),
                             ),
                           ),
-                    if (message != null)
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.lightGreen,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(5.0),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(message),
-                            ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(message),
                           ),
                         ),
                       ),
-                    Flexible(
-                      child: ListView(
-                        children: state.moves.reversed
-                            .toList()
-                            .asMap()
-                            .map((i, move) => MapEntry(
-                                  i,
-                                  MoveRow(
-                                    index: state.moves.length - i - 1,
-                                    length: state.moves.length,
-                                    sizeData: sizeData,
-                                    move: move,
-                                  ),
-                                ))
-                            .values
-                            .toList(),
-                      ),
-                    )
-                  ],
-                ),
+                    ),
+                  Flexible(
+                    child: ListView(
+                      children: state.moves.reversed
+                          .toList()
+                          .asMap()
+                          .map((i, move) => MapEntry(
+                                i,
+                                MoveRow(
+                                  index: state.moves.length - i - 1,
+                                  length: state.moves.length,
+                                  sizeData: sizeData,
+                                  move: move,
+                                ),
+                              ))
+                          .values
+                          .toList(),
+                    ),
+                  )
+                ],
               ),
             ),
-          );
-        }
+          ),
+        );
+      }
 
-        return const Center(child: CircularProgressIndicator());
-      }),
-    );
+      return const Center(child: CircularProgressIndicator());
+    });
   }
 
   _message(PlayState state) {

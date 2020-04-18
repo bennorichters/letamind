@@ -23,6 +23,8 @@ class PlayState extends GameState {
   final List<Move> moves;
   final GameStatus status;
 
+  int get wordLength => solution.length;
+
   @override
   List<Object> get props => [solution, allowedLetters, moves, status];
 

@@ -50,6 +50,7 @@ class LetamindState extends State<LetamindApp> {
               ),
             ],
             child: MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: 'Letamind',
               routes: {
                 'settings': (context) => SettingsScreen(),

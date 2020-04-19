@@ -1,3 +1,3 @@
-# Letamind
+# letamind
 
-A word game
+Letamind is a mobile word game application. Guess the hidden word. 

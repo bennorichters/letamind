@@ -1,0 +1,159 @@
+<svg version="1.1" 
+	baseProfile="full" 
+	width="100%" 
+	viewBox="0 0 300 150" 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+
+	<!-- Background -->
+
+	<defs>
+		<linearGradient id="background" 
+			x1="0%" 
+			y1="0%" 
+			x2="0%" 
+			y2="100%">
+			<stop offset="0%" 
+				style="stop-color:#F5DEB3" />
+			<stop offset="100%" 
+				style="stop-color:#E5AA70" />
+		</linearGradient>
+	</defs>
+
+	<rect x="0" 
+		y="0" 
+		width="300" 
+		height="150" 
+		fill="url(#background)"/>
+
+	<!-- Try pin -->
+
+	<defs>
+		<radialGradient id="TryGradient" 
+			cx="0.65" 
+			cy="0.25" 
+			r="0.65">
+			<stop offset="0%" 
+				stop-color="#B39DDB"/>
+			<stop offset="100%" 
+				stop-color="#9C27B0"/>
+		</radialGradient>
+	</defs>
+
+	<path id="part" 
+		d="M 75 75 
+		a 25 25, 0, 0, 0, -50 0" 
+		fill="url(#TryGradient)"/>
+
+	<rect x="25" 
+		y="73" 
+		rx="2" 
+		ry="2" 
+		width="50" 
+		height="12" 
+		fill="#9C27B0" />
+
+	<rect x="42" 
+		y="80" 
+		rx="2" 
+		ry="2" 
+		width="16" 
+		height="45" 
+		fill="#9C27B0" />
+
+	<!-- Point pint-->
+
+	<defs>
+		<radialGradient id="PointGradient" 
+			cx="0.55" 
+			cy="0.25" 
+			r="0.65">
+			<stop offset="0%" 
+				stop-color="#777"/>
+			<stop offset="100%" 
+				stop-color="#000"/>
+		</radialGradient>
+	</defs>
+
+	<g transform="rotate(20) translate(100, 30)">
+		<g transform="skewX(-10)">
+			<rect x="10" 
+				y="10" 
+				rx="2" 
+				ry="2" 
+				width="20" 
+				height="10" 
+				fill="black" />
+		</g>
+		<g transform="skewX(10)">
+			<rect x="7" 
+				y="10" 
+				rx="2" 
+				ry="2" 
+				width="28" 
+				height="10" 
+				fill="url(#PointGradient)" />
+		</g>
+
+		<rect x="18" 
+			y="18" 
+			rx="2" 
+			ry="2" 
+			width="10" 
+			height="35" 
+			fill="black" />
+	</g>
+
+	<!-- Letters -->
+
+	<text font-family="Open Sans" 
+		font-size="25" 
+		fill="#AAAAFF" 
+		x="64.5" 
+		y="43.5">A</text>
+	<text font-family="Open Sans" 
+		font-size="25" 
+		fill="#000088" 
+		x="65" 
+		y="43">A</text>
+
+
+	<text font-family="Open Sans" 
+		font-size="25" 
+		fill="#AAAAFF" 
+		x="89.5" 
+		y="50.5">B</text>
+	<text font-family="Open Sans" 
+		font-size="25" 
+		fill="#000099" 
+		x="90" 
+		y="50">B</text>
+
+	<text font-family="Open Sans" 
+		font-size="25" 
+		fill="#AAAAFF" 
+		x="107.5" 
+		y="70.5">C</text>
+	<text font-family="Open Sans" 
+		font-size="25" 
+		fill="#0000AA" 
+		x="108" 
+		y="70">C</text>
+
+	<!-- Name -->
+
+	<text font-family="Open Sans" 
+		font-size="28" 
+		fill="#0000AA" 
+		x="150" 
+		y="82">Letamind</text>
+
+
+	<!-- Helpers -->
+	<!--
+	<line x1="25" y1="25" x2="25" y2="125" stroke="black"></line>>
+	<line x1="275" y1="25" x2="275" y2="125" stroke="black"></line>>
+	<line x1="25" y1="75" x2="275" y2="75" stroke="black"></line>>
+	-->
+
+</svg>

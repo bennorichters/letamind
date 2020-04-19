@@ -14,9 +14,9 @@
 			x2="0%" 
 			y2="100%">
 			<stop offset="0%" 
-				style="stop-color:#F0F8FF" />
+				style="stop-color:#F5DEB3" />
 			<stop offset="100%" 
-				style="stop-color:#89CFF0" />
+				style="stop-color:#E5AA70" />
 		</linearGradient>
 	</defs>
 
@@ -108,9 +108,9 @@
 
 	<text font-family="Open Sans" 
 		font-size="25" 
-		fill="#CCCCFF" 
-		x="64" 
-		y="44">A</text>
+		fill="#AAAAFF" 
+		x="64.5" 
+		y="43.5">A</text>
 	<text font-family="Open Sans" 
 		font-size="25" 
 		fill="#000088" 
@@ -120,9 +120,9 @@
 
 	<text font-family="Open Sans" 
 		font-size="25" 
-		fill="#CCCCFF" 
-		x="89" 
-		y="51">B</text>
+		fill="#AAAAFF" 
+		x="89.5" 
+		y="50.5">B</text>
 	<text font-family="Open Sans" 
 		font-size="25" 
 		fill="#000099" 
@@ -131,9 +131,9 @@
 
 	<text font-family="Open Sans" 
 		font-size="25" 
-		fill="#CCCCFF" 
-		x="107" 
-		y="71">C</text>
+		fill="#AAAAFF" 
+		x="107.5" 
+		y="70.5">C</text>
 	<text font-family="Open Sans" 
 		font-size="25" 
 		fill="#0000AA" 

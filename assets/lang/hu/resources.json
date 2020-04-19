@@ -8,6 +8,8 @@
   "resign": "Feladom",
   "resign_question": "Tényleg fel szeretnéd adni?",
   "rules": "Mindegyik betűért, ami az elrejtett szóban megtalálható, egy pontot kapsz. Ha a betű a megfelelő helyen is van, kettő pontot kapsz.",
+  "settings": "Beállítások",
   "solved": "Gratulálunk! Megtaláltad a megoldást.",
+  "word_length": "Szóhossz",
   "yes": "Igen!"
 }

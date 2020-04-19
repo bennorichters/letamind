@@ -47,80 +47,83 @@ class _GameScreenState extends State<GameScreen> {
           appBar: AppBar(
             title: const Text('Letamind'),
           ),
-          body: Center(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
-              child: Container(
-                width: width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    state.status == GameStatus.ongoing
-                        ? InputRow(
-                            length: state.wordLength,
-                            allowedLetters: state.allowedLetters,
-                            sizeData: sizeData,
-                          )
-                        : LetterRow(
-                            word: state.solution,
-                            sizeData: sizeData,
-                            backgroundColor: Colors.purple,
-                            color: Colors.white,
-                            endOfRowWidget: ActionRow(
-                              icon1: Icon(Icons.play_arrow),
-                              color1: Colors.blue,
-                              onTap1: () => BlocProvider.of<GameBloc>(context)
-                                  .add(const StartNewGame()),
-                              icon2: Icon(Icons.settings),
-                              color2: Colors.blue,
-                              onTap2: () => Navigator.pushReplacementNamed(
-                                context,
-                                'settings',
-                              ),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      state.status == GameStatus.ongoing
+                          ? InputRow(
+                              length: state.wordLength,
+                              allowedLetters: state.allowedLetters,
                               sizeData: sizeData,
-                            ),
-                          ),
-                    if (message != null)
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: Container(
-                            width: width,
-                            decoration: BoxDecoration(
-                              color: Colors.purple,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(5.0),
+                            )
+                          : LetterRow(
+                              word: state.solution,
+                              sizeData: sizeData,
+                              backgroundColor: Colors.purple,
+                              color: Colors.white,
+                              endOfRowWidget: ActionRow(
+                                icon1: Icon(Icons.play_arrow),
+                                color1: Colors.blue,
+                                onTap1: () => BlocProvider.of<GameBloc>(context)
+                                    .add(const StartNewGame()),
+                                icon2: Icon(Icons.settings),
+                                color2: Colors.blue,
+                                onTap2: () => Navigator.pushReplacementNamed(
+                                  context,
+                                  'settings',
+                                ),
+                                sizeData: sizeData,
                               ),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                message,
-                                style: TextStyle(color: Colors.white),
+                      if (message != null)
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Container(
+                              width: width,
+                              decoration: BoxDecoration(
+                                color: Colors.purple,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  message,
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    Flexible(
-                      child: ListView(
-                        children: state.moves.reversed
-                            .toList()
-                            .asMap()
-                            .map((i, move) => MapEntry(
-                                  i,
-                                  MoveRow(
-                                    index: state.moves.length - i - 1,
-                                    length: state.moves.length,
-                                    sizeData: sizeData,
-                                    move: move,
-                                  ),
-                                ))
-                            .values
-                            .toList(),
-                      ),
-                    )
-                  ],
+                      Flexible(
+                        child: ListView(
+                          children: state.moves.reversed
+                              .toList()
+                              .asMap()
+                              .map((i, move) => MapEntry(
+                                    i,
+                                    MoveRow(
+                                      index: state.moves.length - i - 1,
+                                      length: state.moves.length,
+                                      sizeData: sizeData,
+                                      move: move,
+                                    ),
+                                  ))
+                              .values
+                              .toList(),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,5 +1,13 @@
 {
   "input_error": "Hoppá!",
-  "settings": "Beállítások",
-  "word_length": "Szóhossz"
+  "intro": "Válaszd ki a betűidet, add meg a fenti soron, és nyomd meg a zöld gombot, hogy megtudd, hány pontot kaptál.",
+  "invalid_chars_msg": "Ezek a karakterek nem megengedettek:",
+  "no_play_on": "Nem, szeretnék tovább játszani",
+  "ok": "Ok!",
+  "play_again": "Indítsd újra a játékot a play gomb megnyomásával. Változtasd meg a beállításokat a fogaskereket ábrázoló gomb megnyomásával.",
+  "resign": "Feladom",
+  "resign_question": "Tényleg fel szeretnéd adni?",
+  "rules": "Mindegyik betűért, ami az elrejtett szóban megtalálható, egy pontot kapsz. Ha a betű a megfelelő helyen is van, kettő pontot kapsz.",
+  "solved": "Gratulálunk! Megtaláltad a megoldást.",
+  "yes": "Igen!"
 }

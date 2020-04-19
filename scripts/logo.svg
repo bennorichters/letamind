@@ -144,6 +144,9 @@
 
 	<!--
 	<line x1="25" y1="25" x2="25" y2="125" stroke="black"></line>>
+	<line x1="50" y1="25" x2="50" y2="125" stroke="black"></line>>
+	<line x1="75" y1="25" x2="75" y2="125" stroke="black"></line>>
+
 	<line x1="125" y1="25" x2="125" y2="125" stroke="black"></line>>
 
 	<line x1="25" y1="25" x2="125" y2="25" stroke="black"></line>>

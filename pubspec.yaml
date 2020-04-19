@@ -5,7 +5,7 @@ repository: https://github.com/bennorichters/letamind/
 issue_tracker: https://github.com/bennorichters/letamind/issues
 homepage: https://bennorichters.github.io/letamind/
 
-version: 1.0.0
+version: 0.0.1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

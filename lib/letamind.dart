@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:letamind/blocs/settings/settings_bloc.dart';
@@ -30,10 +31,20 @@ class LetamindState extends State<LetamindApp> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: widget.textProvider.provide(),
+      future: Future.wait(
+        [
+          SystemChrome.setPreferredOrientations(
+            [
+              DeviceOrientation.portraitUp,
+              DeviceOrientation.portraitDown,
+            ],
+          ),
+          widget.textProvider.provide(),
+        ],
+      ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          TranslationExtenion.texts = snapshot.data;
+          TranslationExtenion.texts = snapshot.data[1];
 
           return MultiBlocProvider(
             providers: [

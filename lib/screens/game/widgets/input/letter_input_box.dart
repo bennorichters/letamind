@@ -8,11 +8,13 @@ class LetterInputBox extends StatelessWidget {
     @required this.autofocus,
     @required this.controller,
     @required this.focusNode,
+    @required this.onChanged,
   });
   final SizeData sizeData;
   final bool autofocus;
   final TextEditingController controller;
   final FocusNode focusNode;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class LetterInputBox extends StatelessWidget {
           enableInteractiveSelection: false,
           focusNode: focusNode,
           inputFormatters: [LengthLimitingTextInputFormatter(1)],
-          onChanged: (_) => focusNode.nextFocus(),
+          onChanged: onChanged,
           style: TextStyle(
             fontSize: sizeData.font,
             fontWeight: FontWeight.bold,

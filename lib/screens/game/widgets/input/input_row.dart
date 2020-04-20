@@ -87,6 +87,16 @@ class _InputRowState extends State<InputRow> {
             autofocus: i == 0,
             controller: _controllers[i],
             focusNode: _focusNodes[i],
+            onChanged: (value) {
+              if (value.trim().isEmpty || value == _emptyBoxChar) {
+                _controllers[i].value = TextEditingValue(
+                  text: _controllers[i].text,
+                  selection: _textSelection,
+                );
+              } else {
+                _focusNodes[i].nextFocus();
+              }
+            },
           ),
         ),
       ),
